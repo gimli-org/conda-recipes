@@ -9,10 +9,10 @@ before_install:
   - ./miniconda.sh -b
   - export PATH=/home/travis/miniconda/bin:$PATH
   - conda update --yes conda
+  - conda install --yes pytest
 
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION pygimli
-  - conda install pytest
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION -c gimli pygimli
 
 script:
     - python -c "import pygimli; pygimli.test()"

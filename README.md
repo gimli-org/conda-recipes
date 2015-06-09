@@ -14,7 +14,7 @@ conda install -c gimli pygimli
 
 For now this works on:
 
-- [x] Linux (64 bit)
+- [x] Linux (64 bit) [![Build Status](https://travis-ci.org/gimli-org/conda-recipes.svg)](https://travis-ci.org/gimli-org/conda-recipes)
 - [ ] Mac OS (64 bit)
 - [ ] Windows (32 bit)
 - [ ] Windows (64 bit)

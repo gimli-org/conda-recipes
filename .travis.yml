@@ -17,6 +17,7 @@ install:
     - echo "             This should be avoided in the future                 "
     - sudo apt-get install -qq liblapack-dev libblas-dev libatlas-dev
     - ln -s /usr/lib/libblas.so /home/travis/miniconda3/lib/libf77blas.so.3
+    - ln -s /usr/lib/libblas.so /home/travis/miniconda3/lib/libblas.so.3
     - ln -s /usr/lib/liblapack.so /home/travis/miniconda3/lib/liblapack.so.3
     - echo "------------------------------------------------------------------"
     - conda install --yes -c gimli pygimli

@@ -12,10 +12,9 @@ before_install:
     - conda install --yes pytest
 
 install:
-    - echo "# This should be avoided in the future #"
+    - echo "This should be avoided in the future"
     - sudo apt-get install -qq liblapack-dev libblas-dev libatlas-base
     - ln -s /usr/lib/libblas.so libf77blas.so.3
-
     - conda install --yes -c gimli pygimli
 
 script:

@@ -16,6 +16,8 @@ install:
     - sudo apt-get install -qq liblapack-dev libblas-dev libatlas-dev
     - ln -s /usr/lib/libblas.so libf77blas.so.3
     - conda install --yes -c gimli pygimli
+    - ls miniconda3/lib
+    - echo $PATH
 
 script:
     - python -c "import pygimli; pygimli.test()"

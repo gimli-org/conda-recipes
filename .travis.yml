@@ -17,6 +17,8 @@ install:
     - ln -s /usr/lib/libblas.so libf77blas.so.3
     - conda install --yes -c gimli pygimli
     - ls /home/travis/miniconda3/lib
+    - ls /usr/lib
+    - ls /usr/local/lib
     - echo $PATH
     - echo $LD_LIBRARY_PATH
 

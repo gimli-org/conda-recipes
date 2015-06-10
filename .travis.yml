@@ -13,7 +13,7 @@ before_install:
 
 install:
     - echo "This should be avoided in the future"
-    - sudo apt-get install -qq liblapack-dev libblas-dev libatlas-base
+    - sudo apt-get install -qq liblapack-dev libblas-dev libatlas-dev
     - ln -s /usr/lib/libblas.so libf77blas.so.3
     - conda install --yes -c gimli pygimli
 

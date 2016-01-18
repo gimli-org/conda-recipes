@@ -3,43 +3,70 @@
 # Copy everything to trunk (necessary because of lib and thirdParty backcopying)
 # TODO: We need more flexible structures here (i.e. in the abensence of trunk)
 shopt -s extglob
-mkdir trunk
-mv !(trunk) trunk
+unset LD_LIBRARY_PATH
+unset PYTHONPATH
 
-# Build only on half of the cores to avoid memory overload
-declare -i cores
-cores=${CPU_COUNT}/2
+export GIMLI_ROOT=$(pwd)
+export GIMLI_BUILD=$GIMLI_ROOT/build
+export GIMLI_SOURCE=$GIMLI_ROOT/gimli
 
-# otherwise triangle build fails due to missing crt1.o
-cp /usr/lib/x86_64-linux-gnu/*.o $PREFIX/lib
+typeset -i PARALLEL_BUILD
+PARALLEL_BUILD=$CPU_COUNT #/2
 
-# avoid conflict, because this variable is used by conda and buildThirdParty.sh
-CONDA_PREFIX=$PREFIX
-unset PREFIX
+export PARALLEL_BUILD=$PARALLEL_BUILD
+export UPDATE_ONLY=0
+export BRANCH=dev
+export PYTHON_MAJOR=2
 
-mkdir build
-cd build
+export CASTXML=/home/carsten/src/gimli/thirdParty/dist-GNU-4.9.3-64/bin/castxml
 
-# Make cmake find dependencies in conda environment rather than system-wide
-export LD_LIBRARY_PATH=$CONDA_PREFIX/lib
-export CMAKE_PREFIX_PATH=$CONDA_PREFIX
+if [ $PY3K -eq 1 ]; then
+    export PYTHONSPECS=-DPYTHON_LIBRARY=/home/carsten/miniconda3/lib/libpython3.so
+else
+    export PYTHONSPECS=-DPYTHON_LIBRARY=/home/carsten/miniconda2/lib/libpython2.7.so
+fi
 
-cmake ../trunk
+export AVOID_GIMLI_TEST=1
 
-make -j $cores gimli
-make pygimli J=$cores
-cd apps
-make
-cd ..
+mkdir $GIMLI_SOURCE
+mv !(gimli) $GIMLI_SOURCE
+
+pushd $GIMLI_SOURCE
+    echo "switching to branch: " $BRANCH
+    [ -n "$BRANCH" ] && git checkout $BRANCH
+popd
+
+
+#bash $GIMLI_SOURCE/scripts/install/install_linux_gimli.sh
+mkdir -p $GIMLI_BUILD
+pushd $GIMLI_BUILD
+
+    export LDFLAGS="-L${PREFIX}/lib"
+    export CPPFLAGS="-I${PREFIX}/include"
+    export CMAKE_PREFIX_PATH=$PREFIX
+
+    CLEAN=1 cmake $GIMLI_SOURCE $PYTHONSPECS \
+        -DCMAKE_SHARED_LINKER_FLAGS='-L/home/carsten/miniconda2/envs/_test/lib/' \
+        -DCMAKE_EXE_LINKER_FLAGS='-L/home/carsten/miniconda2/envs/_test/lib/' \
+        -DCASTER_EXECUTABLE=$CASTXML \
+        -DAVOID_CPPUNIT=TRUE \
+        -DAVOID_READPROC=TRUE\
+        -DLAPACK_LIBRARIES=libopenblas.so \
+        -DBLAS_LIBRARIES=libopenblas.so 
+    make -j$PARALLEL_BUILD
+    
+    make apps -j$PARALLEL_BUILD
+    make pygimli J=$PARALLEL_BUILD
+popd
 
 # Make conda find GIMLi libraries and executables
-
+echo "Installing at .. " $PREFIX 
 # C++ part
-mkdir -p $CONDA_PREFIX/bin
-mkdir -p $CONDA_PREFIX/lib
-cp -v lib/*.so $CONDA_PREFIX/lib
-cp -v bin/* $CONDA_PREFIX/bin
-
+mkdir -p $PREFIX/bin
+mkdir -p $PREFIX/lib
+cp -v $GIMLI_BUILD/lib/*.so $PREFIX/lib
+#cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part
-cd ../trunk/python
-python setup.py install --prefix $CONDA_PREFIX
+pushd $GIMLI_SOURCE/python
+     python setup.py install --prefix $PREFIX
+popd

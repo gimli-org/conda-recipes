@@ -1,0 +1,18 @@
+package:
+  name: suitesparse
+  version: 4.4.1
+
+source:
+    #wget -nc -nd http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-4.4.1.tar.gz
+    path: /home/carsten/local/conda-recipes/src/SuiteSparse
+
+requirements:
+  build:
+    - cmake [win]
+    #- numpy >=1.8 # for openblas
+  run:
+    #- numpy >=1.8 # for openblas
+
+about:
+  home: http://faculty.cse.tamu.edu/davis/suitesparse.html
+  license: GPLv3

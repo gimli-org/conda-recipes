@@ -3,33 +3,31 @@ package:
   version: 1.0rc
 
 source:
-    #git_url: https://github.com/gimli-org/gimli.git
-    path: /home/carsten/src/gimli/gimli
+    git_url: https://github.com/gimli-org/gimli.git
+    #path: /home/carsten/src/gimli/gimli
 
 requirements:
     build:
         - gcc >=4.7
         - cmake >=2.8.10
-        #- lapack
         - python
         - boost ==1.57.0
-        - numpy >=1.8
+        - numpy >=1.10
         #- suitesparse
 
     run:
         - python
         - boost ==1.57.0
-        - numpy >=1.8
-        #- lapack
+        - numpy >=1.10
         - matplotlib >=1.3.0 # make optional
         #- suitesparse
 
-#test:
-    #imports:
-        #- pygimli
-    #commands:
+test:
+    imports:
+        - pygimli
+    commands:
         #- harmfit -h # C++ app
-        #- pytripatch -h # Python app
+        - pytripatch -h # Python app
 
 about:
     home: http://www.pygimli.org

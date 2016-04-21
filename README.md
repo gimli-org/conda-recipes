@@ -5,8 +5,8 @@ dependencies using the cross-platform package manager conda
 (http://conda.pydata.org/).
 
 ## Installation
-Compiled packages can be found on our Binstar channel
-(https://binstar.org/gimli) and installed by:
+Compiled packages can be found on our Anaconda channel
+(https://anaconda.org/gimli/pygimli) and installed by:
 
 ``` bash
 conda install -c gimli pygimli

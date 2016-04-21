@@ -16,7 +16,7 @@ PARALLEL_BUILD=$CPU_COUNT #/2
 export PARALLEL_BUILD=$PARALLEL_BUILD
 export UPDATE_ONLY=0
 export BRANCH=dev
-export PYTHON_MAJOR=3
+export PYTHON_MAJOR=2
 export CONDAPATH="~/miniconda$PYTHON_MAJOR"
 
 #export CASTXML=~/src/gimli/thirdParty/dist-GNU-4.8.4-64/bin/castxml

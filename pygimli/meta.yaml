@@ -25,6 +25,7 @@ requirements:
         - boost >=1.57.0
         - numpy >=1.10
         - matplotlib >=1.3.0 # make optional
+        - openblas
         #- suitesparse
 
 test:

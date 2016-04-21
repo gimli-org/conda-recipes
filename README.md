@@ -27,7 +27,7 @@ cd conda-recipes
 conda install conda-build # necessary to build packages
 conda config --add channels http://conda.binstar.org/gimli
 conda build pygimli
-conda install binstar # necessary to upload packages to binstar.org
+conda install anaconda-client # necessary to upload packages to binstar.org
 ```
 
 

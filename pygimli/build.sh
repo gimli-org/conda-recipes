@@ -19,14 +19,14 @@ PARALLEL_BUILD=$CPU_COUNT #/2
 export PARALLEL_BUILD=$PARALLEL_BUILD
 export UPDATE_ONLY=0
 export BRANCH=dev
-export PYTHON_MAJOR=3
-export CONDAPATH="~/miniconda$PYTHON_MAJOR"
 
 #export CASTXML=~/src/gimli/thirdParty/dist-GNU-4.8.4-64/bin/castxml
 
 if [ $PY3K -eq 1 ]; then
+    export CONDAPATH="~/miniconda3"
     export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
 else
+    export CONDAPATH="~/miniconda2"
     export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
 fi
 

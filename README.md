@@ -1,4 +1,5 @@
 # Conda build recipes for GIMLi
+[![Anaconda-Server Badge](https://anaconda.org/gimli/pygimli/badges/installer/conda.svg)](https://conda.anaconda.org/gimli) [![Anaconda-Server Badge](https://anaconda.org/gimli/pygimli/badges/downloads.svg)](https://anaconda.org/gimli/pygimli)
 
 This repository contains recipes to build GIMLi (http://www.gimli.org) and its
 dependencies using the cross-platform package manager conda

@@ -1,6 +1,8 @@
 language: python
 
 python:
+    - 2.7
+    - 3.4
     - 3.5
 
 before_install:
@@ -17,7 +19,7 @@ install:
     - conda install --yes -c gimli pygimli pybert
 
 script:
-    - python -c "import pygimli; print(pygimli.__version__)"
-    - python -c "import pybert; print(pybert.__version__)"
+    - python -c "import pygimli"
+    - python -c "import pybert"
     - which bert
     - dcinv -h

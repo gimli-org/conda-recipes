@@ -6,9 +6,12 @@ shopt -s extglob
 #unset LD_LIBRARY_PATH
 #unset PYTHONPATH
 
-export GIMLI_ROOT=$(pwd)
-export GIMLI_BUILD=$GIMLI_ROOT/build
-export GIMLI_SOURCE=$GIMLI_ROOT/gimli
+GIMLI_ROOT=$(pwd)
+export GIMLI_BUILD=$GIMLI_ROOT/gimli/build
+export GIMLI_SOURCE=$GIMLI_ROOT/gimli/gimli
+mkdir -p $GIMLI_SOURCE
+mv !(gimli) $GIMLI_SOURCE
+mkdir -p $GIMLI_BUILD
 
 typeset -i PARALLEL_BUILD
 PARALLEL_BUILD=$CPU_COUNT #/2
@@ -16,7 +19,7 @@ PARALLEL_BUILD=$CPU_COUNT #/2
 export PARALLEL_BUILD=$PARALLEL_BUILD
 export UPDATE_ONLY=0
 export BRANCH=dev
-export PYTHON_MAJOR=2
+export PYTHON_MAJOR=3
 export CONDAPATH="~/miniconda$PYTHON_MAJOR"
 
 #export CASTXML=~/src/gimli/thirdParty/dist-GNU-4.8.4-64/bin/castxml
@@ -29,11 +32,6 @@ fi
 
 export AVOID_GIMLI_TEST=1
 
-mkdir $GIMLI_SOURCE
-mv !(gimli) $GIMLI_SOURCE
-
-#bash $GIMLI_SOURCE/scripts/install/install_linux_gimli.sh
-mkdir -p $GIMLI_BUILD
 pushd $GIMLI_BUILD
 
     export LDFLAGS="-L${PREFIX}/lib"
@@ -47,15 +45,15 @@ pushd $GIMLI_BUILD
         -DAVOID_CPPUNIT=TRUE \
         -DAVOID_READPROC=TRUE\
         -DLAPACK_LIBRARIES=$PREFIX/lib/libopenblas.so \
-        -DBLAS_LIBRARIES=$PREFIX/lib/libopenblas.so 
+        -DBLAS_LIBRARIES=$PREFIX/lib/libopenblas.so
     make -j$PARALLEL_BUILD
-    
+
     make apps -j$PARALLEL_BUILD
     make pygimli J=$PARALLEL_BUILD
 popd
 
 # Make conda find GIMLi libraries and executables
-echo "Installing at .. " $PREFIX 
+echo "Installing at .. " $PREFIX
 # C++ part
 mkdir -p $PREFIX/bin
 mkdir -p $PREFIX/lib

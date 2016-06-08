@@ -1,6 +1,6 @@
 package:
-    name: pygimli
-    version: 1.0rc
+    name: pybert
+    version: 2.0
 
 build:
     number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0) }}
@@ -8,7 +8,7 @@ build:
 source:
     #git_url: https://github.com/gimli-org/gimli.git
     #git_tag: dev # build from dev branch
-    path: /home/fwagner/src/gimli/gimli
+    path: /home/fwagner/src/bert/bert
 
 requirements:
     build:
@@ -19,8 +19,10 @@ requirements:
         - numpy >=1.10
         - openblas
         #- suitesparse
+        #- metis
 
     run:
+        - pygimli
         - python
         - boost ==1.60
         - numpy >=1.10
@@ -30,12 +32,10 @@ requirements:
 
 test:
     imports:
-        - pygimli
+        - pybert
     commands:
-        #- harmfit -h # C++ app
-        - pytripatch -h # Python app
+        - dcinv -h
 
 about:
-    home: http://www.pygimli.org
-    summary: Geophysical Inversion and Modelling Library
-    license: GNU Lesser General Public License (LGPL)
+    home: http://www.resistivity.net
+    summary: Boundless Electrical Resistivity Tomography

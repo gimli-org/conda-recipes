@@ -1,7 +1,6 @@
 language: python
 
 python:
-    - 2.7
     - 3.5
 
 before_install:
@@ -16,6 +15,9 @@ before_install:
 
 install:
     - conda install --yes -c gimli pygimli
+    - conda install --yes -c gimli pybert
 
 script:
     - python -c "import pygimli"
+    - python -c "import pybert"
+    - bert -h

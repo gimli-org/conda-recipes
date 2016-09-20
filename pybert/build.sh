@@ -6,22 +6,26 @@
 # Copy everything to trunk (necessary because of lib and thirdParty backcopying)
 # TODO: We need more flexible structures here (i.e. in the abensence of trunk)
 shopt -s extglob
-#unset LD_LIBRARY_PATH
-#unset PYTHONPATH
+unset LD_LIBRARY_PATH
+unset PYTHONPATH
 
 typeset -i PARALLEL_BUILD
-PARALLEL_BUILD=$CPU_COUNT #/2
+PARALLEL_BUILD=$CPU_COUNT/2
+PARALLEL_BUILD=8
 
 export PARALLEL_BUILD=$PARALLEL_BUILD
 export UPDATE_ONLY=0
 export BRANCH=dev
 
+
 if [ $PY3K -eq 1 ]; then
     export CONDAPATH="~/miniconda3"
     export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
+    export BOOST=$PREFIX/lib/libboost_python3.so
 else
     export CONDAPATH="~/miniconda2"
     export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
+    export BOOST=$PREFIX/lib/libboost_python.so
 fi
 
 BERT_ROOT=$(pwd)
@@ -43,14 +47,18 @@ export LDFLAGS="-L${PREFIX}/lib"
 export CPPFLAGS="-I${PREFIX}/include"
 export CMAKE_PREFIX_PATH=$PREFIX
 
+# HACK
+export CASTXML=~/git/gimli/thirdParty/dist-Clang-3.8.1-64/bin/castxml
+
 CLEAN=1 cmake ../gimli $PYTHONSPECS \
     -DCMAKE_SHARED_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
     -DCMAKE_EXE_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
     -DCASTER_EXECUTABLE=$CASTXML \
     -DAVOID_CPPUNIT=TRUE \
-    -DAVOID_READPROC=TRUE\
+    -DAVOID_READPROC=TRUE \
     -DLAPACK_LIBRARIES=$PREFIX/lib/libopenblas.so \
-    -DBLAS_LIBRARIES=$PREFIX/lib/libopenblas.so
+    -DBLAS_LIBRARIES=$PREFIX/lib/libopenblas.so \
+    -DBoost_PYTHON_LIBRARY=$BOOST
 make -j$PARALLEL_BUILD
 
 make apps -j$PARALLEL_BUILD
@@ -64,10 +72,15 @@ pushd $BERT_BUILD
     export CPPFLAGS="-I${PREFIX}/include"
     export CMAKE_PREFIX_PATH=$PREFIX
 
+    # HACK
+    export CASTXML=~/git/gimli/thirdParty/dist-Clang-3.8.1-64/bin/castxml
+
     CLEAN=1 cmake $BERT_SOURCE $PYTHONSPECS \
         -DCMAKE_SHARED_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
         -DCMAKE_EXE_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
-        -DCASTER_EXECUTABLE=$CASTXML
+        -DCASTER_EXECUTABLE=$CASTXML \
+        -DBoost_PYTHON_LIBRARY=$BOOST \
+        -DPYBERT=1
     make -j$PARALLEL_BUILD
 
     make bert1 -j$PARALLEL_BUILD
@@ -83,6 +96,8 @@ mkdir -p $PREFIX/bin
 mkdir -p $PREFIX/lib
 cp -v $BERT_BUILD/lib/*.so $PREFIX/lib
 cp -v $BERT_BUILD/bin/* $PREFIX/bin
+cp -vr $BERT_SOURCE/examples $PREFIX/share
+cp -v ~/git/bert/trunk/doc/tutorial/bert-tutorial.pdf $PREFIX/share
 # Python part
 pushd $BERT_SOURCE/python
      python setup.py install --prefix $PREFIX

@@ -14,20 +14,23 @@ mv !(gimli) $GIMLI_SOURCE
 mkdir -p $GIMLI_BUILD
 
 typeset -i PARALLEL_BUILD
-PARALLEL_BUILD=$CPU_COUNT #/2
+PARALLEL_BUILD=$CPU_COUNT/2
 
 export PARALLEL_BUILD=$PARALLEL_BUILD
 export UPDATE_ONLY=0
 export BRANCH=dev
 
 #export CASTXML=~/src/gimli/thirdParty/dist-GNU-4.8.4-64/bin/castxml
+export CASTXML=~/git/gimli/thirdParty/dist-Clang-3.8.1-64/bin/castxml
 
 if [ $PY3K -eq 1 ]; then
     export CONDAPATH="~/miniconda3"
     export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
+    export BOOST=$PREFIX/lib/libboost_python3.so
 else
     export CONDAPATH="~/miniconda2"
     export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
+    export BOOST=$PREFIX/lib/libboost_python.so
 fi
 
 export AVOID_GIMLI_TEST=1
@@ -45,7 +48,8 @@ pushd $GIMLI_BUILD
         -DAVOID_CPPUNIT=TRUE \
         -DAVOID_READPROC=TRUE\
         -DLAPACK_LIBRARIES=$PREFIX/lib/libopenblas.so \
-        -DBLAS_LIBRARIES=$PREFIX/lib/libopenblas.so
+        -DBLAS_LIBRARIES=$PREFIX/lib/libopenblas.so \
+        -DBoost_PYTHON_LIBRARY=$BOOST
     make -j$PARALLEL_BUILD
 
     make apps -j$PARALLEL_BUILD

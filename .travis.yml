@@ -25,3 +25,4 @@ script:
     - dcinv -h
     - gimlipath=`python -c "import pygimli; print(pygimli.__path__[0])"`
     - ldd $gimlipath/core/_pygimli_.so
+    - echo "DONE."

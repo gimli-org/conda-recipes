@@ -1,6 +1,6 @@
 package:
     name: pybert
-    version: 2.1.0
+    version: 2.1.2
 
 build:
     number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0) }}
@@ -8,10 +8,13 @@ build:
 source:
     #git_url: https://github.com/gimli-org/gimli.git
     #git_tag: dev # build from dev branch
-    path: /home/wagner/git/bert/trunk
+    path: /home/fwagner/src/bert/bert
 
 requirements:
     build:
+        - glibc
+        - system
+        - libgcc
         - gcc >=4.7
         - cmake >=2.8.10
         - python
@@ -22,6 +25,9 @@ requirements:
         #- metis
 
     run:
+        - glibc
+        - system
+        - libgcc
         - pygimli
         - python
         - boost ==1.60

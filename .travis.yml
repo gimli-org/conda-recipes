@@ -23,4 +23,5 @@ script:
     - python -c "import pybert"
     - which bert
     - dcinv -h
-    - ldd which dcinv
+    - gimlipath=`python -c "import pygimli; print(pygimli.__path__[0])"`
+    - ldd $gimlipath/core/_pygimli_.so

@@ -12,29 +12,23 @@ source:
 
 requirements:
     build:
-        - glibc
-        - system
-        - libgcc
         - gcc >=4.7
         - cmake >=2.8.10
         - python
-        - boost ==1.60
+        - boost ==1.61
         - numpy >=1.10
         - openblas
         #- suitesparse
         #- metis
 
     run:
-        - glibc
-        - system
         - libgcc
         - pygimli
         - python
-        - boost ==1.60
+        - boost ==1.61
         - numpy >=1.10
+        - pyqt <=4.11.4 # https://github.com/ContinuumIO/anaconda-issues/issues/1068
         - matplotlib >=1.3.0 # make optional
-        - pyqt <=4.11.4
-        - qt <=4.8.7
         - openblas
         - scipy # for workshop only
         #- suitesparse

@@ -3,13 +3,13 @@ package:
     version: 1.1rc
 
 build:
-    number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0) }}
+    number: 0
     rpaths:
         - lib/
         - lib64/
 
 source:
-    # git_url: https://github.com/gimli-org/gimli.git
+    #git_url: https://github.com/gimli-org/gimli.git
     #git_tag: dev # build from dev branch
     path: /home/fwagner/src/gimli/gimli
 
@@ -28,7 +28,6 @@ requirements:
         - python
         - boost ==1.61
         - numpy >=1.10
-        - pyqt ==4.11.4 # https://github.com/ContinuumIO/anaconda-issues/issues/1068
         - matplotlib
         - openblas
         - scipy # for workshop only

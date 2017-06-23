@@ -75,9 +75,7 @@ pushd $BERT_BUILD
     make -j$PARALLEL_BUILD
 
     make bert1 -j$PARALLEL_BUILD
-    make bert -j$PARALLEL_BUILD
     make dcinv dcmod dcedit -j$PARALLEL_BUILD
-    make pybert J=$PARALLEL_BUILD
 popd
 
 # Make conda find libraries and executables

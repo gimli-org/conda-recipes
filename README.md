@@ -10,7 +10,11 @@ Compiled packages can be found on our Anaconda channel
 (https://anaconda.org/gimli/pygimli) and installed by:
 
 ``` bash
-conda install -c gimli pygimli
+# Add gimli and conda-forge channels (only once)
+conda config --add channels gimli --add channels conda-forge
+
+# Install pygimli
+conda install -f pygimli
 ```
 
 For now this works on:
@@ -25,10 +29,10 @@ For now this works on:
 ``` bash
 git clone https://github.com/gimli-org/conda-recipes
 cd conda-recipes
-conda install conda-build # necessary to build packages
-conda config --add channels http://conda.binstar.org/gimli
-conda build pygimli
-conda install anaconda-client # necessary to upload packages to binstar.org
+conda install -y conda-build # necessary to build packages
+conda install -y anaconda-client # necessary to upload packages
+
+bash update_anaconda.sh
 ```
 
 

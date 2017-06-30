@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 # Build bert conda package. Requires gimli package to be built first.
 # conda build pygimli
 # conda build --keep-old-work pybert
@@ -13,17 +14,7 @@ typeset -i PARALLEL_BUILD
 PARALLEL_BUILD=$CPU_COUNT
 
 export PARALLEL_BUILD=$PARALLEL_BUILD
-export UPDATE_ONLY=0
-export BRANCH=dev
-
-
-if [ $PY3K -eq 1 ]; then
-    export CONDAPATH="~/miniconda3"
-    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
-else
-    export CONDAPATH="~/miniconda2"
-    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
-fi
+##
 
 BERT_ROOT=$(pwd)
 export BERT_BUILD=$BERT_ROOT/bert/build
@@ -36,7 +27,18 @@ mkdir gimli
 cd gimli
 mkdir build
 git clone https://github.com/gimli-org/gimli
-cd build
+cd gimli
+git checkout dev
+cd ../build
+
+if [ $PY3K -eq 1 ]; then
+    export CONDAPATH="~/miniconda3"
+    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
+    export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.so
+else
+    export CONDAPATH="~/miniconda2"
+    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
+fi
 
 export AVOID_GIMLI_TEST=1
 
@@ -44,38 +46,26 @@ export LDFLAGS="-L${PREFIX}/lib"
 export CPPFLAGS="-I${PREFIX}/include"
 export CMAKE_PREFIX_PATH=$PREFIX
 
-# HACK
-#export CASTXML=~/git/gimli/thirdParty/dist-Clang-3.8.1-64/bin/castxml
-
-CLEAN=1 cmake ../gimli $PYTHONSPECS \
+CLEAN=1 cmake $BERT_ROOT/gimli/gimli $PYTHONSPECS $BOOST $CMAKE_FLAGS \
     -DCMAKE_SHARED_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
     -DCMAKE_EXE_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
     -DAVOID_CPPUNIT=TRUE \
-    -DAVOID_READPROC=TRUE \
+    -DAVOID_READPROC=TRUE\
     -DLAPACK_LIBRARIES=$PREFIX/lib/libopenblas.so \
     -DBLAS_LIBRARIES=$PREFIX/lib/libopenblas.so
 make -j$PARALLEL_BUILD
 
-make apps -j$PARALLEL_BUILD
-make pygimli J=$PARALLEL_BUILD
-
-cd $BERT_ROOT
-
 pushd $BERT_BUILD
-
     export LDFLAGS="-L${PREFIX}/lib"
     export CPPFLAGS="-I${PREFIX}/include"
     export CMAKE_PREFIX_PATH=$PREFIX
 
     # HACK
-    CLEAN=1 cmake $BERT_SOURCE $PYTHONSPECS \
+    CLEAN=1 cmake $BERT_SOURCE \
         -DCMAKE_SHARED_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
         -DCMAKE_EXE_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
-        -DPYBERT=1
-    make -j$PARALLEL_BUILD
-
-    make bert1 -j$PARALLEL_BUILD
-    make dcinv dcmod dcedit -j$PARALLEL_BUILD
+        -DGIMLI_LIBRARIES='../../gimli/build/lib/libgimli.so'
+    make -j$PARALLEL_BUILD bert1 dcinv dcmod dcedit
 popd
 
 # Make conda find libraries and executables

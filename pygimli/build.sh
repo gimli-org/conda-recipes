@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copy everything to trunk (necessary because of lib and thirdParty backcopying)
 # TODO: We need more flexible structures here (i.e. in the abensence of trunk)
@@ -20,12 +20,16 @@ export PARALLEL_BUILD=$PARALLEL_BUILD
 export UPDATE_ONLY=0
 export BRANCH=dev
 
-#export CASTXML=~/src/gimli/thirdParty/dist-GNU-4.8.4-64/bin/castxml
-#export CASTXML=~/git/gimli/thirdParty/dist-Clang-3.8.1-64/bin/castxml
+# Install castxml from binary to avoid any clang/llvm related issues
+wget https://midas3.kitware.com/midas/download/item/318227/castxml-linux.tar.gz
+tar -xzf castxml-linux.tar.gz
+export CASTXML=`pwd`/castxml/bin/castxml
+CMAKE_FLAGS="-DCASTER_EXECUTABLE=$CASTXML"
 
 if [ $PY3K -eq 1 ]; then
     export CONDAPATH="~/miniconda3"
     export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
+    export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.so
 else
     export CONDAPATH="~/miniconda2"
     export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
@@ -39,7 +43,7 @@ pushd $GIMLI_BUILD
     export CPPFLAGS="-I${PREFIX}/include"
     export CMAKE_PREFIX_PATH=$PREFIX
 
-    CLEAN=1 cmake $GIMLI_SOURCE $PYTHONSPECS \
+    CLEAN=1 cmake $GIMLI_SOURCE $PYTHONSPECS $BOOST $CMAKE_FLAGS \
         -DCMAKE_SHARED_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
         -DCMAKE_EXE_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
         -DAVOID_CPPUNIT=TRUE \

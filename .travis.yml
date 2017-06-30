@@ -2,8 +2,8 @@ language: python
 
 python:
     - 2.7
-    - 3.4
     - 3.5
+    - 3.6
 
 before_install:
     - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
@@ -11,15 +11,16 @@ before_install:
     - ./miniconda.sh -b -p $HOME/miniconda
     - export PATH=$HOME/miniconda/bin:$PATH
     - conda update --yes conda
+    - conda config --add channels gimli --add channels conda-forge
     - conda create --yes -n condaenv python=$TRAVIS_PYTHON_VERSION
     #- conda install --yes -n condaenv pytest
     - source activate condaenv
 
 install:
-    - conda install --yes -c gimli pygimli pybert
+    - conda install -y pybert
 
 script:
-    - python -c "import pygimli"
+    - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False)"
     - python -c "import pybert"
     - which bert
     - dcinv -h

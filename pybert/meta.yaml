@@ -3,34 +3,22 @@ package:
     version: 2.2.0
 
 build:
-    number: 0
+    number: 1
 
 source:
     #git_url: https://github.com/gimli-org/gimli.git
     #git_tag: dev # build from dev branch
-    path: /home/fwagner/src/bert/bert
+    path: /home/wagner/git/bert/trunk
 
 requirements:
     build:
-        - gcc >=4.7
-        - cmake >=2.8.10
-        - python
-        - boost ==1.61
-        - numpy >=1.10
-        - openblas
-        #- suitesparse
-        #- metis
-
-    run:
-        - libgcc
         - pygimli
         - python
-        - boost ==1.61
-        - numpy >=1.10
-        - matplotlib
-        - openblas
-        - scipy # for workshop only
-        #- suitesparse
+
+    run:
+        - pygimli
+        - python
+        - tetgen
 
 test:
     imports:

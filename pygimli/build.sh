@@ -62,6 +62,7 @@ echo "Installing at .. " $PREFIX
 mkdir -p $PREFIX/bin
 mkdir -p $PREFIX/lib
 cp -v $GIMLI_BUILD/lib/*.so $PREFIX/lib
+mv -v $GIMLI_SOURCE/src $PREFIX/include/gimli # header files for bert
 #cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part
 pushd $GIMLI_SOURCE/python

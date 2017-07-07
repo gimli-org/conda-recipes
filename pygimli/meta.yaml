@@ -1,9 +1,9 @@
 package:
     name: pygimli
-    version: 1.1rc
+    version: 1.0
 
 build:
-    number: 2
+    number: 3
     rpaths:
         - lib/
         - lib64/
@@ -17,12 +17,13 @@ source:
 requirements:
     build:
         - gcc >=4.7
+        - libgcc
         - cmake >=2.8.10
         - python
         - boost ==1.64
         - numpy x.x
         - openblas
-        - suitesparse
+        #- suitesparse
 
     run:
         - libgcc
@@ -34,7 +35,7 @@ requirements:
         - openblas
         - scipy # for workshop only
         - pytest
-        - suitesparse
+        #- suitesparse
 
 test:
     imports:

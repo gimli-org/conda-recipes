@@ -21,19 +21,36 @@ export UPDATE_ONLY=0
 export BRANCH=dev
 
 # Install castxml from binary to avoid any clang/llvm related issues
-wget https://midas3.kitware.com/midas/download/item/318227/castxml-linux.tar.gz
-tar -xzf castxml-linux.tar.gz
+if [ "$(uname)" == "Darwin" ];
+then
+    # for Mac OSX
+    curl -O https://midas3.kitware.com/midas/download/item/318762/castxml-macosx.tar.gz
+    tar -xzf castxml-macosx.tar.gz
+    export BLAS=libopenblas.dylib
+    export CONDAPATH="$HOME/miniconda3"
+    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.6m.dylib
+    export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.dylib
+elif [ "$(uname)" == "Linux" ]
+then
+    # for Linux
+    curl -O https://midas3.kitware.com/midas/download/item/318227/castxml-linux.tar.gz
+    tar -xzf castxml-linux.tar.gz
+    export BLAS=libopenblas.so
+    if [ $PY3K -eq 1 ]; then
+        export CONDAPATH="~/miniconda3"
+        export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
+        export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.so
+    else
+        export CONDAPATH="~/miniconda2"
+        export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
+    fi
+else
+    echo "This system is unsupported by our toolchain."
+    exit 1
+fi
+
 export CASTXML=`pwd`/castxml/bin/castxml
 CMAKE_FLAGS="-DCASTER_EXECUTABLE=$CASTXML"
-
-if [ $PY3K -eq 1 ]; then
-    export CONDAPATH="~/miniconda3"
-    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
-    export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.so
-else
-    export CONDAPATH="~/miniconda2"
-    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
-fi
 
 export AVOID_GIMLI_TEST=1
 
@@ -47,9 +64,9 @@ pushd $GIMLI_BUILD
         -DCMAKE_SHARED_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
         -DCMAKE_EXE_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
         -DAVOID_CPPUNIT=TRUE \
-        -DAVOID_READPROC=TRUE\
-        -DLAPACK_LIBRARIES=$PREFIX/lib/libopenblas.so \
-        -DBLAS_LIBRARIES=$PREFIX/lib/libopenblas.so
+        -DAVOID_READPROC=TRUE \
+        -DLAPACK_LIBRARIES=$PREFIX/lib/$BLAS \
+        -DBLAS_LIBRARIES=$PREFIX/lib/$BLAS
     make -j$PARALLEL_BUILD
 
     make apps -j$PARALLEL_BUILD
@@ -62,6 +79,7 @@ echo "Installing at .. " $PREFIX
 mkdir -p $PREFIX/bin
 mkdir -p $PREFIX/lib
 cp -v $GIMLI_BUILD/lib/*.so $PREFIX/lib
+cp -v $GIMLI_BUILD/lib/*.dylib $PREFIX/lib
 mv -v $GIMLI_SOURCE/src $PREFIX/include/gimli # header files for bert
 #cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part

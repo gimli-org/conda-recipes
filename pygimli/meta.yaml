@@ -3,7 +3,7 @@ package:
     version: 1.0
 
 build:
-    number: 3
+    number: 1
     rpaths:
         - lib/
         - lib64/
@@ -12,7 +12,8 @@ source:
     #git_url: https://github.com/gimli-org/gimli.git
     #git_tag: dev # build from dev branch
     #path: /home/fwagner/src/gimli/gimli
-    path: /home/wagner/git/gimli/trunk
+    #path: /home/wagner/git/gimli/trunk
+    path: /Users/flocke/gimli
 
 requirements:
     build:
@@ -20,15 +21,16 @@ requirements:
         - libgcc
         - cmake >=2.8.10
         - python
-        - boost ==1.64
+        - boost ==1.63
         - numpy x.x
         - openblas
+        - wget
         #- suitesparse
 
     run:
         - libgcc
         - python
-        - boost ==1.64
+        - boost ==1.63
         - numpy x.x # RVector.array() bug mit 1.12
         - pyqt ==4.11.4 # current mpl/qt bug with qt 5.6
         - matplotlib

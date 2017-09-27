@@ -3,7 +3,7 @@ package:
     version: 2.2.0
 
 build:
-    number: 3
+    number: 5
     rpaths:
         - lib/
         - lib64/
@@ -20,7 +20,7 @@ requirements:
         - pygimli
         - cmake >=2.8.10
         - python
-        - boost ==1.64
+        - boost >=1.64
         - numpy x.x
         - openblas
 

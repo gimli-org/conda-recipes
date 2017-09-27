@@ -1,9 +1,9 @@
 package:
     name: pygimli
-    version: 1.0
+    version: 1.1rc
 
 build:
-    number: 1
+    number: 5
     rpaths:
         - lib/
         - lib64/
@@ -21,7 +21,7 @@ requirements:
         - libgcc
         - cmake >=2.8.10
         - python
-        - boost ==1.63
+        - boost >=1.64
         - numpy x.x
         - openblas
         - wget
@@ -30,9 +30,9 @@ requirements:
     run:
         - libgcc
         - python
-        - boost ==1.63
+        - boost >=1.64
         - numpy x.x # RVector.array() bug mit 1.12
-        - pyqt ==4.11.4 # current mpl/qt bug with qt 5.6
+        #- pyqt ==4.11.4 # current mpl/qt bug with qt 5.6
         - matplotlib
         - openblas
         - scipy # for workshop only

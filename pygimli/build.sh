@@ -16,7 +16,7 @@ mkdir -p $GIMLI_BUILD
 typeset -i PARALLEL_BUILD
 PARALLEL_BUILD=$CPU_COUNT
 
-export PARALLEL_BUILD=$PARALLEL_BUILD/4
+export PARALLEL_BUILD=$PARALLEL_BUILD/2
 export UPDATE_ONLY=0
 export BRANCH=dev
 
@@ -79,7 +79,13 @@ echo "Installing at .. " $PREFIX
 mkdir -p $PREFIX/bin
 mkdir -p $PREFIX/lib
 cp -v $GIMLI_BUILD/lib/*.so $PREFIX/lib
-cp -v $GIMLI_BUILD/lib/*.dylib $PREFIX/lib
+
+if [ "$(uname)" == "Darwin" ];
+then
+    # for Mac OSX
+    cp -v $GIMLI_BUILD/lib/*.dylib $PREFIX/lib
+fi
+
 mv -v $GIMLI_SOURCE/src $PREFIX/include/gimli # header files for bert
 #cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part

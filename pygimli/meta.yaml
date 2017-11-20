@@ -12,40 +12,32 @@ source:
     #git_url: https://github.com/gimli-org/gimli.git
     #git_tag: dev # build from dev branch
     #path: /home/fwagner/src/gimli/gimli
-    #path: /home/wagner/git/gimli/trunk
-    path: /Users/flocke/gimli
+    path: /home/wagner/git/gimli/trunk
 
 requirements:
     build:
         - gcc >=4.7
-        - libgcc
         - cmake >=2.8.10
         - python
-        - boost >=1.64
-        - numpy x.x
+        - boost ==1.64
+        - numpy >=1.13
         - openblas
-        - wget
-        #- suitesparse
+        - wget # [not linux]
 
     run:
-        - libgcc
-        - python
-        - boost >=1.64
-        - numpy x.x # RVector.array() bug mit 1.12
-        #- pyqt ==4.11.4 # current mpl/qt bug with qt 5.6
-        - matplotlib
+        - boost ==1.64
+        - numpy >=1.13
+        - matplotlib >=2.0
         - openblas
         - scipy # for workshop only
         - pytest
-        #- suitesparse
 
 test:
     imports:
         - pygimli
     commands:
-        # - harmfit -h # C++ app
         - pytripatch -h # Python app
-        - python -c "import pygimli; pygimli.test(onlydoctests=True)"
+        - python -c "import pygimli; pygimli.test(onlydoctests=True, abort=True)"
 
 about:
     home: http://www.pygimli.org

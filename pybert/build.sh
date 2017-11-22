@@ -29,8 +29,6 @@ export CMAKE_PREFIX_PATH=$PREFIX
 
 pushd $BERT_BUILD
     cmake $BERT_SOURCE \
-        -DCMAKE_SHARED_LINKER_FLAGS="-L$CONDAPATH/envs/_build/lib/" \
-        -DCMAKE_EXE_LINKER_FLAGS="-L$CONDAPATH/envs/_build/lib/" \
         -DGIMLI_LIBRARIES="${PREFIX}/lib/libgimli.so" \
         -DGIMLI_INCLUDE_DIR="${PREFIX}/include/gimli"
     VERBOSE=1 make -j$PARALLEL_BUILD bert1 dcinv dcmod dcedit

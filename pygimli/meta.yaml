@@ -1,32 +1,31 @@
 package:
     name: pygimli
-    version: 1.1rc
+    version: {{ GIT_DESCRIBE_TAG }}
 
 build:
-    number: 5
+    number: {{ GIT_DESCRIBE_NUMBER }}
     rpaths:
         - lib/
         - lib64/
 
 source:
-    #git_url: https://github.com/gimli-org/gimli.git
-    #git_tag: dev # build from dev branch
-    #path: /home/fwagner/src/gimli/gimli
-    path: /home/wagner/git/gimli/trunk
+    git_url: https://github.com/gimli-org/gimli.git
+    git_tag: dev # build from dev branch
 
 requirements:
     build:
+        - boost ==1.64
         - gcc >=4.7
         - cmake >=2.8.10
         - python
-        - boost ==1.64
-        - numpy >=1.13
+        - numpy x.x
         - openblas
         - wget # [not linux]
 
     run:
         - boost ==1.64
-        - numpy >=1.13
+        - python
+        - numpy x.x
         - matplotlib >=2.0
         - openblas
         - scipy # for workshop only

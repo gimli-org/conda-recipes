@@ -16,7 +16,7 @@ mkdir -p $GIMLI_BUILD
 typeset -i PARALLEL_BUILD
 PARALLEL_BUILD=$CPU_COUNT
 
-export PARALLEL_BUILD=$PARALLEL_BUILD/2
+export PARALLEL_BUILD=$PARALLEL_BUILD
 export UPDATE_ONLY=0
 export BRANCH=dev
 
@@ -28,7 +28,7 @@ then
     tar -xzf castxml-macosx.tar.gz
     export BLAS=libopenblas.dylib
     export CONDAPATH="$HOME/miniconda3"
-    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.6m.dylib
+    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython${PY_VER}m.dylib
     export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.dylib
 elif [ "$(uname)" == "Linux" ]
 then
@@ -38,11 +38,11 @@ then
     export BLAS=libopenblas.so
     if [ $PY3K -eq 1 ]; then
         export CONDAPATH="~/miniconda3"
-        export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython3.so
+        export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython${PY_VER}m.so
         export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.so
     else
         export CONDAPATH="~/miniconda2"
-        export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython2.7.so
+        export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython$PY_VER.so
     fi
 else
     echo "This system is unsupported by our toolchain."

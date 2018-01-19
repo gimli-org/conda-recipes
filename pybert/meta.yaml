@@ -3,7 +3,7 @@ package:
     version: 2.2.4
 
 build:
-    number: 8
+    number: 10
     rpaths:
         - lib/
         - lib64/
@@ -18,7 +18,7 @@ requirements:
         - gcc >=4.7
         - boost ==1.64
         - numpy x.x
-        - pygimli
+        - pygimli x.x
         - python
 
     run:

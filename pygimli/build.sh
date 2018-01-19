@@ -27,9 +27,8 @@ then
     curl -O https://midas3.kitware.com/midas/download/item/318762/castxml-macosx.tar.gz
     tar -xzf castxml-macosx.tar.gz
     export BLAS=libopenblas.dylib
-    export CONDAPATH="$HOME/miniconda3"
-    export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython${PY_VER}m.dylib
-    export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.dylib
+    export PYTHONSPECS=-DPYTHON_LIBRARY=$PREFIX/lib/libpython${PY_VER}m.dylib
+    export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python3.dylib
 elif [ "$(uname)" == "Linux" ]
 then
     # for Linux
@@ -37,12 +36,11 @@ then
     tar -xzf castxml-linux.tar.gz
     export BLAS=libopenblas.so
     if [ $PY3K -eq 1 ]; then
-        export CONDAPATH="~/miniconda3"
-        export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython${PY_VER}m.so
-        export BOOST=-DBoost_PYTHON_LIBRARY=$CONDAPATH/lib/libboost_python3.so
+        export PYTHONSPECS=-DPYTHON_LIBRARY=$PREFIX/lib/libpython${PY_VER}m.so
+        export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python3.so
     else
-        export CONDAPATH="~/miniconda2"
-        export PYTHONSPECS=-DPYTHON_LIBRARY=$CONDAPATH/lib/libpython$PY_VER.so
+        export PYTHONSPECS=-DPYTHON_LIBRARY=$PREFIX/lib/libpython$PY_VER.so
+        export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python.so
     fi
 else
     echo "This system is unsupported by our toolchain."

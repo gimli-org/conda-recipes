@@ -3,7 +3,7 @@ package:
     version: 2.2.4
 
 build:
-    number: 11
+    number: 10
     rpaths:
         - lib/
         - lib64/

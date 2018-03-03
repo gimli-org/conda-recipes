@@ -1,10 +1,12 @@
 package:
+    # INFO:
+    # The version is generated from the last git tag, an underscore and the
+    # number of commits since the last tag, i.e. 1.0.5_137 This assures that
+    # also intermediate versions will trigger an update of anaconda badges.
     name: pygimli
-    version: {{ GIT_DESCRIBE_TAG[1:] }}
+    version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
 
 build:
-    number: {{ GIT_DESCRIBE_NUMBER }}
-    #number: 72
     rpaths:
         - lib/
         - lib64/
@@ -15,7 +17,7 @@ source:
 
 requirements:
     build:
-        - boost ==1.64
+        - boost ==1.65.1
         - gcc >=4.7
         - cmake >=2.8.10
         - python x.x
@@ -24,10 +26,10 @@ requirements:
         - wget # [not linux]
 
     run:
-        - boost ==1.64
-        - python
+        - boost ==1.65.1
+        - python x.x
         - numpy x.x
-        - matplotlib >=2.0
+        - matplotlib >=2.1.2 # weird plotting bug in 2.1
         - openblas
         - scipy # for workshop only
         - pytest
@@ -37,7 +39,7 @@ test:
         - pygimli
     commands:
         - pytripatch -h # Python app
-        - python -c "import pygimli; pygimli.test(onlydoctests=True, abort=True)"
+        #- python -c "import pygimli; pygimli.test(onlydoctests=True, abort=True)"
 
 about:
     home: http://www.pygimli.org

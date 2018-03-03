@@ -17,8 +17,10 @@ source:
 
 requirements:
     build:
-        - boost ==1.65.1
-        - gcc >=4.7
+        # Make sure libgcc 5.* is not used at build time
+        - libgcc 4.8.*  # [linux]
+        - gcc 4.8.*  # [linux]
+        - boost 1.66.0
         - cmake >=2.8.10
         - python x.x
         - numpy x.x
@@ -26,7 +28,8 @@ requirements:
         - wget # [not linux]
 
     run:
-        - boost ==1.65.1
+        - boost 1.66.0
+        - gcc 4.8.*  # [linux]
         - python x.x
         - numpy x.x
         - matplotlib >=2.1.2 # weird plotting bug in 2.1

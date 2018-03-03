@@ -1,7 +1,6 @@
 language: python
 
 python:
-    - 2.7
     - 3.5
     - 3.6
 
@@ -13,14 +12,13 @@ before_install:
     - conda update --yes conda
     - conda config --add channels gimli --add channels conda-forge
     - conda create --yes -n condaenv python=$TRAVIS_PYTHON_VERSION
-    #- conda install --yes -n condaenv pytest
     - source activate condaenv
 
 install:
     - conda install -y pybert
 
 script:
-    - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False)"
+    - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
     - python -c "import pybert"
     - which bert
     - dcinv -h

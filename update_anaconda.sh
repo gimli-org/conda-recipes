@@ -3,8 +3,8 @@ export PATH=~/miniconda3:$PATH
 conda build purge # remove intermediate builds
 
 anaconda login
-for py in 3.6 3.5; do
-    for numpy in 1.13 1.14; do
+for py in 3.6; do
+    for numpy in 1.14; do
         for pkg in pygimli pybert; do
             params="$pkg --python $py --numpy $numpy"
             name=`conda build $params --output`

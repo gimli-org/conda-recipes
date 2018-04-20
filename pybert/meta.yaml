@@ -1,9 +1,12 @@
 package:
+    # INFO:
+    # The version is generated from the last git tag, an underscore and the
+    # number of commits since the last tag, i.e. 2.2.6_13. This assures that
+    # also intermediate versions will trigger an update of anaconda badges.
     name: pybert
-    version: 2.2.6rc
+    version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
 
 build:
-    number: 13
     rpaths:
         - lib/
         - lib64/
@@ -12,6 +15,7 @@ source:
     #git_url: https://gitlab.com/resistivity-net/bert
     #git_tag: dev # build from dev branch
     path: /home/wagner/git/bert/trunk
+    git_tag: v2.2.6
 
 requirements:
     build:
@@ -24,6 +28,7 @@ requirements:
         - python x.x
 
     run:
+        - gcc 4.8.*  # [linux]
         - boost 1.66.0
         - pygimli
         - numpy x.x

@@ -20,6 +20,8 @@ export PARALLEL_BUILD=$PARALLEL_BUILD/2
 export UPDATE_ONLY=0
 export BRANCH=dev
 
+py=$(echo $PY_VER | sed -e 's/\.//g')
+
 # Install castxml from binary to avoid any clang/llvm related issues
 if [ "$(uname)" == "Darwin" ];
 then
@@ -37,10 +39,10 @@ then
     export BLAS=libopenblas.so
     if [ $PY3K -eq 1 ]; then
         export PYTHONSPECS=-DPYTHON_LIBRARY=$PREFIX/lib/libpython${PY_VER}m.so
-        export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python3.so
+        export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python$py.so
     else
         export PYTHONSPECS=-DPYTHON_LIBRARY=$PREFIX/lib/libpython$PY_VER.so
-        export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python.so
+        export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python$py.so
     fi
 else
     echo "This system is unsupported by our toolchain."

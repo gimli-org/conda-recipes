@@ -10,7 +10,7 @@ for py in 3.6; do
             name=`conda build $params --output`
             echo "Building $name"
             sleep 5
-            conda build --skip-existing -c conda-forge $params && anaconda upload --force $name
+            conda build --skip-existing -c conda-forge $params && anaconda upload --force $name --label main --label dev
         done
     done
 done

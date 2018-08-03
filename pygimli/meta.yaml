@@ -12,25 +12,29 @@ build:
         - lib64/
 
 source:
+    # From GIT
     git_url: https://github.com/gimli-org/gimli.git
     #git_tag: dev
     git_tag: v1.0.7
+    #OR LOCAL to DEBUG
+    #path: /local/path/gimli/trunk
 
 requirements:
     build:
-        - gcc >=4.8.3  # [linux]
-        - boost 1.67.0
-        - cmake >=2.8.10
-        - python x.x
-        - numpy x.x
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - libgcc
+        - cmake >=2.9
+        - boost {{ boost }}
+        - python {{ python }}
+        - numpy {{ numpy }}
         - openblas
         - wget # [not linux]
 
     run:
-        - boost 1.67.0
-        - gcc >=4.8.3  # [linux]
-        - python x.x
-        - numpy x.x
+        - boost {{ boost }}
+        - python {{ python }}
+        - numpy {{ numpy }}
         - matplotlib >=2.1.2 # weird plotting bug in 2.1
         - openblas
         - scipy # for workshop only
@@ -41,7 +45,7 @@ test:
         - pygimli
     commands:
         - pytripatch -h # Python app
-        #- python -c "import pygimli; pygimli.test(onlydoctests=True, abort=True)"
+        - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
 
 about:
     home: http://www.pygimli.org

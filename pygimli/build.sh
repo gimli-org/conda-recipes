@@ -5,6 +5,7 @@
 shopt -s extglob
 #unset LD_LIBRARY_PATH
 #unset PYTHONPATH
+export CONDA_BUILD=1
 
 GIMLI_ROOT=$(pwd)
 export GIMLI_BUILD=$GIMLI_ROOT/gimli/build
@@ -20,6 +21,9 @@ export PARALLEL_BUILD=$PARALLEL_BUILD/2
 export UPDATE_ONLY=0
 export BRANCH=dev
 
+export LIBRARY_PATH=${PREFIX}/lib
+export INCLUDE_PATH=${PREFIX}/include
+
 py=$(echo $PY_VER | sed -e 's/\.//g')
 
 # Install castxml from binary to avoid any clang/llvm related issues
@@ -29,8 +33,8 @@ then
     curl -O https://midas3.kitware.com/midas/download/item/318762/castxml-macosx.tar.gz
     tar -xzf castxml-macosx.tar.gz
     export BLAS=libopenblas.dylib
-    export PYTHONSPECS=-DPYTHON_LIBRARY=$PREFIX/lib/libpython${PY_VER}m.dylib
-    export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python3.dylib
+    export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}m.dylib
+    export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python3.dylib
 elif [ "$(uname)" == "Linux" ]
 then
     # for Linux
@@ -38,11 +42,11 @@ then
     tar -xzf castxml-linux.tar.gz
     export BLAS=libopenblas.so
     if [ $PY3K -eq 1 ]; then
-        export PYTHONSPECS=-DPYTHON_LIBRARY=$PREFIX/lib/libpython${PY_VER}m.so
-        export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python$py.so
+        export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}m.so
+        export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python$py.so
     else
-        export PYTHONSPECS=-DPYTHON_LIBRARY=$PREFIX/lib/libpython$PY_VER.so
-        export BOOST=-DBoost_PYTHON_LIBRARY=$PREFIX/lib/libboost_python$py.so
+        export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython$PY_VER.so
+        export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python$py.so
     fi
 else
     echo "This system is unsupported by our toolchain."
@@ -58,17 +62,23 @@ pushd $GIMLI_BUILD
 
     export LDFLAGS="-L${PREFIX}/lib"
     export CPPFLAGS="-I${PREFIX}/include"
-    export CMAKE_PREFIX_PATH=$PREFIX
+    export CMAKE_PREFIX_PATH=${CONDA_PREFIX}
 
     CLEAN=1 cmake $GIMLI_SOURCE $PYTHONSPECS $BOOST $CMAKE_FLAGS \
-        -DCMAKE_SHARED_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
-        -DCMAKE_EXE_LINKER_FLAGS='-L$CONDAPATH/envs/_build/lib/' \
+        -DCMAKE_LD_FLAGS='-L${CONDA_PREFIX}/lib/' \
+        -DCMAKE_SHARED_LINKER_FLAGS='-L${CONDA_PREFIX}/lib/' \
+        -DCMAKE_EXE_LINKER_FLAGS='-L${CONDA_PREFIX}/lib/' \
+        -DCMAKE_CXX_FLAGS='-I${CONDA_PREFIX}/include' \
         -DAVOID_CPPUNIT=TRUE \
+        -DCMAKE_INSTALL_PREFIX=$PREFIX \
+        -DCMAKE_INSTALL_LIBDIR=$PREFIX/lib \
+        -DCMAKE_INCLUDE_PATH=$INCLUDE_PATH \
+        -DCMAKE_LIBRARY_PATH=$LIBRARY_PATH \
         -DAVOID_READPROC=TRUE \
-        -DLAPACK_LIBRARIES=$PREFIX/lib/$BLAS \
-        -DBLAS_LIBRARIES=$PREFIX/lib/$BLAS
-    make -j$PARALLEL_BUILD
+        -DLAPACK_LIBRARIES=${CONDA_PREFIX}/lib/$BLAS \
+        -DBLAS_LIBRARIES=${CONDA_PREFIX}/lib/$BLAS || (cat CMakeFiles/CMakeError.log && exit 1)
 
+    make -j$PARALLEL_BUILD VERBOSE=1
     make apps -j$PARALLEL_BUILD
     make pygimli J=$PARALLEL_BUILD
 popd

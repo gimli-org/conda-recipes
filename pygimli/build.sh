@@ -53,33 +53,38 @@ else
     exit 1
 fi
 
-export CASTXML=`pwd`/castxml/bin/castxml
-CMAKE_FLAGS="-DCASTER_EXECUTABLE=$CASTXML"
+#export CASTXML=`pwd`/castxml/bin/castxml
+#CMAKE_FLAGS="-DCASTER_EXECUTABLE=$CASTXML"
 
 export AVOID_GIMLI_TEST=1
 
 pushd $GIMLI_BUILD
 
-    export LDFLAGS="-L${PREFIX}/lib"
-    export CPPFLAGS="-I${PREFIX}/include"
-    export CMAKE_PREFIX_PATH=${CONDA_PREFIX}
+    # export LDFLAGS="-L${PREFIX}/lib"
+    # export CPPFLAGS="-I${PREFIX}/include"
+    # export CMAKE_PREFIX_PATH=${CONDA_PREFIX}
 
-    CLEAN=1 cmake $GIMLI_SOURCE $PYTHONSPECS $BOOST $CMAKE_FLAGS \
-        -DCMAKE_LD_FLAGS='-L${CONDA_PREFIX}/lib/' \
-        -DCMAKE_SHARED_LINKER_FLAGS='-L${CONDA_PREFIX}/lib/' \
-        -DCMAKE_EXE_LINKER_FLAGS='-L${CONDA_PREFIX}/lib/' \
-        -DCMAKE_CXX_FLAGS='-I${CONDA_PREFIX}/include' \
-        -DAVOID_CPPUNIT=TRUE \
-        -DCMAKE_INSTALL_PREFIX=$PREFIX \
-        -DCMAKE_INSTALL_LIBDIR=$PREFIX/lib \
-        -DCMAKE_INCLUDE_PATH=$INCLUDE_PATH \
-        -DCMAKE_LIBRARY_PATH=$LIBRARY_PATH \
-        -DAVOID_READPROC=TRUE \
-        -DLAPACK_LIBRARIES=${CONDA_PREFIX}/lib/$BLAS \
-        -DBLAS_LIBRARIES=${CONDA_PREFIX}/lib/$BLAS || (cat CMakeFiles/CMakeError.log && exit 1)
+    # CLEAN=1 cmake $GIMLI_SOURCE $PYTHONSPECS $BOOST $CMAKE_FLAGS \
+    #     -DCMAKE_LD_FLAGS='-L${CONDA_PREFIX}/lib/' \
+    #     -DCMAKE_SHARED_LINKER_FLAGS='-L${CONDA_PREFIX}/lib/' \
+    #     -DCMAKE_EXE_LINKER_FLAGS='-L${CONDA_PREFIX}/lib/' \
+    #     -DCMAKE_CXX_FLAGS='-I${CONDA_PREFIX}/include' \
+    #     -DAVOID_CPPUNIT=TRUE \
+    #     -DCMAKE_INSTALL_PREFIX=$PREFIX \
+    #     -DCMAKE_INSTALL_LIBDIR=$PREFIX/lib \
+    #     -DCMAKE_INCLUDE_PATH=$INCLUDE_PATH \
+    #     -DCMAKE_LIBRARY_PATH=$LIBRARY_PATH \
+    #     -DAVOID_READPROC=TRUE \
+    #     -DLAPACK_LIBRARIES=${CONDA_PREFIX}/lib/$BLAS \
+    #     -DBLAS_LIBRARIES=${CONDA_PREFIX}/lib/$BLAS || (cat CMakeFiles/CMakeError.log && exit 1)
 
-    make -j$PARALLEL_BUILD VERBOSE=1
-    make apps -j$PARALLEL_BUILD
+    CLEAN=1 cmake $GIMLI_SOURCE $BOOST \
+          -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
+          -DAVOID_CPPUNIT=TRUE \
+          -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
+
+    make -j$PARALLEL_BUILD #VERBOSE=0
+    #make apps -j$PARALLEL_BUILD
     make pygimli J=$PARALLEL_BUILD
 popd
 

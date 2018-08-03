@@ -14,8 +14,8 @@ build:
 source:
     # From GIT
     git_url: https://github.com/gimli-org/gimli.git
-    #git_tag: dev
-    git_tag: v1.0.7
+    git_tag: dev
+    #git_tag: v1.0.7
     #OR LOCAL to DEBUG
     #path: /local/path/gimli/trunk
 
@@ -25,14 +25,15 @@ requirements:
         - {{ compiler('cxx') }}
         - libgcc
         - cmake >=2.9
-        - boost {{ boost }}
         - python {{ python }}
+        - py-boost {{ boost }}
+        - suitesparse
         - numpy {{ numpy }}
         - openblas
         - wget # [not linux]
 
     run:
-        - boost {{ boost }}
+        #- boost # {{ boost }}
         - python {{ python }}
         - numpy {{ numpy }}
         - matplotlib >=2.1.2 # weird plotting bug in 2.1

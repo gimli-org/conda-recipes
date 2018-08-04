@@ -3,9 +3,7 @@
 # Copy everything to trunk (necessary because of lib and thirdParty backcopying)
 # TODO: We need more flexible structures here (i.e. in the abensence of trunk)
 shopt -s extglob
-#unset LD_LIBRARY_PATH
-#unset PYTHONPATH
-export CONDA_BUILD=1
+unset PYTHONPATH
 
 GIMLI_ROOT=$(pwd)
 export GIMLI_BUILD=$GIMLI_ROOT/gimli/build
@@ -20,9 +18,6 @@ PARALLEL_BUILD=$CPU_COUNT
 export PARALLEL_BUILD=$PARALLEL_BUILD/2
 export UPDATE_ONLY=0
 export BRANCH=dev
-
-export LIBRARY_PATH=${PREFIX}/lib
-export INCLUDE_PATH=${PREFIX}/include
 
 py=$(echo $PY_VER | sed -e 's/\.//g')
 
@@ -53,30 +48,9 @@ else
     exit 1
 fi
 
-#export CASTXML=`pwd`/castxml/bin/castxml
-#CMAKE_FLAGS="-DCASTER_EXECUTABLE=$CASTXML"
-
 export AVOID_GIMLI_TEST=1
 
 pushd $GIMLI_BUILD
-
-    # export LDFLAGS="-L${PREFIX}/lib"
-    # export CPPFLAGS="-I${PREFIX}/include"
-    # export CMAKE_PREFIX_PATH=${CONDA_PREFIX}
-
-    # CLEAN=1 cmake $GIMLI_SOURCE $PYTHONSPECS $BOOST $CMAKE_FLAGS \
-    #     -DCMAKE_LD_FLAGS='-L${CONDA_PREFIX}/lib/' \
-    #     -DCMAKE_SHARED_LINKER_FLAGS='-L${CONDA_PREFIX}/lib/' \
-    #     -DCMAKE_EXE_LINKER_FLAGS='-L${CONDA_PREFIX}/lib/' \
-    #     -DCMAKE_CXX_FLAGS='-I${CONDA_PREFIX}/include' \
-    #     -DAVOID_CPPUNIT=TRUE \
-    #     -DCMAKE_INSTALL_PREFIX=$PREFIX \
-    #     -DCMAKE_INSTALL_LIBDIR=$PREFIX/lib \
-    #     -DCMAKE_INCLUDE_PATH=$INCLUDE_PATH \
-    #     -DCMAKE_LIBRARY_PATH=$LIBRARY_PATH \
-    #     -DAVOID_READPROC=TRUE \
-    #     -DLAPACK_LIBRARIES=${CONDA_PREFIX}/lib/$BLAS \
-    #     -DBLAS_LIBRARIES=${CONDA_PREFIX}/lib/$BLAS || (cat CMakeFiles/CMakeError.log && exit 1)
 
     CLEAN=1 cmake $GIMLI_SOURCE $BOOST \
           -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
@@ -84,7 +58,7 @@ pushd $GIMLI_BUILD
           -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
 
     make -j$PARALLEL_BUILD #VERBOSE=0
-    #make apps -j$PARALLEL_BUILD
+    make apps -j$PARALLEL_BUILD
     make pygimli J=$PARALLEL_BUILD
 popd
 
@@ -101,9 +75,11 @@ then
     cp -v $GIMLI_BUILD/lib/*.dylib $PREFIX/lib
 fi
 
+mkdir -p $PREFIX/include/gimli
 mv -v $GIMLI_SOURCE/src $PREFIX/include/gimli # header files for bert
-#cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
+cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part
+export PYTHONUSERBASE=$PREFIX
 pushd $GIMLI_SOURCE/python
-     python setup.py install --prefix $PREFIX
+     python setup.py install --user
 popd

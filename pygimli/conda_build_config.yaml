@@ -1,10 +1,17 @@
 python:
-    #- 3.5
     - 3.6
 
 numpy:
-    - 1.14
-    #- 1.15
+    - 1.14.*
 
 boost:
-    - 1.67
+    - 1.67.*
+
+# Fix versions to be on the safe side
+pin_run_as_build:
+    boost:
+        max_pin: x.x
+    numpy:
+        max_pin: x.x
+    python:
+        max_pin: x.x

@@ -23,14 +23,14 @@ mkdir -p $BERT_SOURCE
 mv !(bert) $BERT_SOURCE
 mkdir -p $BERT_BUILD
 
-export LDFLAGS="-L${PREFIX}/lib"
-export CPPFLAGS="-I${PREFIX}/include"
-export CMAKE_PREFIX_PATH=$PREFIX
+export LDFLAGS="-L${CONDA_PREFIX}/lib"
+export CPPFLAGS="-I${CONDA_PREFIX}/include"
+export CMAKE_PREFIX_PATH=$CONDA_PREFIX
 
 pushd $BERT_BUILD
     cmake $BERT_SOURCE \
-        -DGIMLI_LIBRARIES="${PREFIX}/lib/libgimli.so" \
-        -DGIMLI_INCLUDE_DIR="${PREFIX}/include/gimli"
+        -DGIMLI_LIBRARIES="${CONDA_PREFIX}/lib/libgimli.so" \
+        -DGIMLI_INCLUDE_DIR="${CONDA_PREFIX}/include/gimli"
     VERBOSE=1 make -j$PARALLEL_BUILD bert1 dcinv dcmod dcedit
 popd
 
@@ -45,5 +45,6 @@ cp -vr $BERT_SOURCE/examples $PREFIX/share
 #cp -v ~/git/bert/trunk/doc/tutorial/bert-tutorial.pdf $PREFIX/share
 # Python part
 pushd $BERT_SOURCE/python
-     python setup.py install --prefix $PREFIX
+    export PYTHONUSERBASE=$PREFIX
+    python setup.py install --user
 popd

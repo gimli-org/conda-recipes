@@ -15,24 +15,18 @@ source:
     git_url: https://gitlab.com/resistivity-net/bert
     #git_tag: dev # build from dev branch
     #path: /home/wagner/git/bert/trunk
-    git_tag: v2.2.7
+    git_tag: v2.6.7
 
 requirements:
     build:
-        # Make sure libgcc 5.* is not used at build time
-        - gcc >=4.8.3  # [linux]
-        - boost 1.67.0
-        - numpy x.x
-        - pygimli >= 1.0.7
-        - python x.x
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake >=2.9
+        - suitesparse
+        - pygimli >=1.0.7
 
     run:
-        - gcc >=4.8.3  # [linux]
-        - boost 1.67.0
-        - pygimli >= 1.0.7
-        - numpy x.x
-        - tetgen
-        - python x.x
+        - pygimli >=1.0.7
 
 test:
     imports:

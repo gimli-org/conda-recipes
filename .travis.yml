@@ -8,14 +8,14 @@ before_install:
     - chmod +x miniconda.sh
     - ./miniconda.sh -b -p $HOME/miniconda
     - export PATH=$HOME/miniconda/bin:$PATH
-    - conda update --yes conda
+    - conda update --yes --all
     - conda config --add channels gimli --add channels conda-forge
     - conda create --yes -n condaenv python=$TRAVIS_PYTHON_VERSION
     - source activate condaenv
 
 install:
     - conda install -y pybert
-    - conda update pybert
+    - conda update -f pybert
 
 script:
     - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"

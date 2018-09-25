@@ -15,7 +15,7 @@ before_install:
 
 install:
     - conda install -y pybert
-    - conda update -f pybert
+    - conda update -y -f pybert
 
 script:
     - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"

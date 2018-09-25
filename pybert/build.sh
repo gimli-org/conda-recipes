@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Build bert conda package. Requires gimli package to be built first.
-# conda build pygimli
-# conda build --keep-old-work pybert
-
 # Copy everything to trunk (necessary because of lib and thirdParty backcopying)
 # TODO: We need more flexible structures here (i.e. in the abensence of trunk)
 shopt -s extglob
@@ -24,13 +20,13 @@ mv !(bert) $BERT_SOURCE
 mkdir -p $BERT_BUILD
 
 export LDFLAGS="-L${CONDA_PREFIX}/lib"
-export CPPFLAGS="-I${CONDA_PREFIX}/include"
+export CPPFLAGS="-I${CONDA_PREFIX}/include -I${CONDA_PREFIX}/include/gimli"
 export CMAKE_PREFIX_PATH=$CONDA_PREFIX
 
 pushd $BERT_BUILD
     cmake $BERT_SOURCE \
         -DGIMLI_LIBRARIES="${CONDA_PREFIX}/lib/libgimli.so" \
-        -DGIMLI_INCLUDE_DIR="${CONDA_PREFIX}/include/gimli"
+        -DGIMLI_INCLUDE_DIR="${CONDA_PREFIX}/include/gimli/src"
     VERBOSE=1 make -j$PARALLEL_BUILD bert1 dcinv dcmod dcedit
 popd
 

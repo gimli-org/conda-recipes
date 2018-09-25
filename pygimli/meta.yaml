@@ -39,7 +39,7 @@ requirements:
         - matplotlib >=2.1.2 # weird plotting bug in 2.1
         - openblas
         - scipy # for workshop only
-        - pytest
+        - pytest ==3.7 # 3.8 not working yet, need to check why
 
 test:
     imports:

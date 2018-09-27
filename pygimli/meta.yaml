@@ -33,9 +33,9 @@ requirements:
 
     run:
         - suitesparse
-        - py-boost {{ boost }}
         - python {{ python }}
-        - numpy {{ numpy }}
+        - {{ pin_compatible('py-boost', max_pin=None)}}
+        - {{ pin_compatible('numpy', max_pin=None)}}
         - matplotlib >=2.1.2 # weird plotting bug in 2.1
         - openblas
         - scipy # for workshop only

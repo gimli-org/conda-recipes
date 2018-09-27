@@ -2,7 +2,7 @@ python:
     - 3.6
 
 numpy:
-    - 1.15
+    - 1.14
 
 boost:
     - 1.67

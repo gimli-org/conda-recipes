@@ -16,10 +16,10 @@ install:
   - source activate test-environment
 
 script:
-    - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
-    - python -c "import pybert"
-    - which bert
-    - dcinv -h
-    - gimlipath=`python -c "import pygimli; print(pygimli.__path__[0])"`
-    - ldd $gimlipath/core/_pygimli_.so
-    - echo "DONE."
+  - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
+  - python -c "import pybert"
+  - which bert
+  - dcinv -h
+  - gimlipath=`python -c "import pygimli; print(pygimli.__path__[0])"`
+  - ldd $gimlipath/core/_pygimli_.so
+  - echo "DONE."

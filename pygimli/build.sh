@@ -24,17 +24,11 @@ py=$(echo $PY_VER | sed -e 's/\.//g')
 # Install castxml from binary to avoid any clang/llvm related issues
 if [ "$(uname)" == "Darwin" ];
 then
-    # for Mac OSX
-    curl -O https://midas3.kitware.com/midas/download/item/318762/castxml-macosx.tar.gz
-    tar -xzf castxml-macosx.tar.gz
     export BLAS=libopenblas.dylib
     export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}m.dylib
     export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python3.dylib
 elif [ "$(uname)" == "Linux" ]
 then
-    # for Linux
-    curl -O https://midas3.kitware.com/midas/download/item/318227/castxml-linux.tar.gz
-    tar -xzf castxml-linux.tar.gz
     export BLAS=libopenblas.so
     if [ $PY3K -eq 1 ]; then
         export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}m.so

@@ -12,8 +12,6 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
-
-  # Replace dep1 dep2 ... with your dependencies
   - conda create -c gimli -c conda-forge -q -n test-environment python=$TRAVIS_PYTHON_VERSION pybert
   - source activate test-environment
 

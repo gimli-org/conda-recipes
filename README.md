@@ -31,6 +31,7 @@ git clone https://github.com/gimli-org/conda-recipes
 cd conda-recipes
 conda install -y conda-build # necessary to build packages
 conda install -y anaconda-client # necessary to upload packages
+conda activate base
 
 bash update_anaconda.sh
 ```

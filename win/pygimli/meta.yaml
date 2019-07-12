@@ -1,0 +1,65 @@
+package:
+    # INFO:
+    # The version is generated from the last git tag, an underscore and the
+    # number of commits since the last tag, i.e. 1.0.5_137 This assures that
+    # also intermediate versions will trigger an update of anaconda badges.
+    name: pygimli
+    # version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
+    version: 1.0.11.1
+
+#build:
+#    rpaths:
+#        - lib/
+#        - lib64/
+
+source:
+    # From GIT
+    # git_url: https://github.com/gimli-org/gimli.git
+    # git_tag: v1.0.11
+    # OR LOCAL to DEBUG
+    # path: /local/path/gimli/trunk
+    path: c:\msys64\home\Guenther.T\src\gimli\gimli37\python 
+    #path: ../gimli/gimli37/python 
+
+#build:
+#    script: python setup.py install --single-version-externally-managed --record=record.txt
+#    noarch: python
+#    noarch_python: True
+
+requirements:
+    host:
+        - python {{ PY_VER }}
+    # build:
+        # - {{ compiler('c') }}
+        # - {{ compiler('cxx') }}
+        # - cmake >=2.9
+        # - python {{ python }}
+        # - py-boost {{ boost }}
+        # - suitesparse
+        # - numpy {{ numpy }}
+        # - openblas
+        # - wget # [not linux]
+    run:
+        - python {{ PY_VER }}
+        # - suitesparse
+        # - python {{ python }}
+        # - {{ pin_compatible('py-boost', max_pin=None)}}
+        # - {{ pin_compatible('numpy', max_pin=None)}}
+        - numpy
+        - matplotlib >=2.1.2 # weird plotting bug in 2.1
+        - qt
+        # - openblas
+        # - scipy # for workshop only
+        # - pytest ==3.7 # 3.8 not working yet, need to check why
+
+#test:
+#    imports:
+#        - pygimli
+#    commands:
+#        # - pytripatch -h # Python app
+#        - python -c "import pygimli"
+
+about:
+    home: http://www.pygimli.org
+    summary: Geophysical Inversion and Modelling Library
+    license: Apache 2.0

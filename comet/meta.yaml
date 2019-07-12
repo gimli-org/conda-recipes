@@ -10,7 +10,7 @@ source:
 #    # From GIT
     git_url: https://gitlab.com/Skibbe/comet.git
 #    # git_tag: master
-    git_tag: 0.9.01
+#    git_tag: 0.9.01
 #     path: ..
 
 requirements:
@@ -34,5 +34,5 @@ requirements:
 
 about:
     home: https://comet-project.readthedocs.io/
-    summary: comet
+    summary: COupled Magnetic resonance and Electrical resistivity Tomography
     license: LGPL

@@ -14,15 +14,16 @@ Compiled packages can be found on our Anaconda channel
 conda config --add channels gimli --add channels conda-forge
 
 # Install pygimli
-conda install -f pygimli
+conda install pygimli
 ```
+
+Please see the installation instructions on www.pygimli.org for more details.
 
 For now this works on:
 
 - [x] Linux (64 bit) [![Build Status](https://travis-ci.org/gimli-org/conda-recipes.svg)](https://travis-ci.org/gimli-org/conda-recipes)
+- [x] Windows (64 bit) [![Build status](https://ci.appveyor.com/api/projects/status/q3kvckvsnw9a5890?svg=true)](https://ci.appveyor.com/project/florian-wagner/conda-recipes)
 - [ ] Mac OS (64 bit)
-- [ ] Windows (32 bit)
-- [ ] Windows (64 bit)
 
 ## Creating a new release
 

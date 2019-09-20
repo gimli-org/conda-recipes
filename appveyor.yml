@@ -30,3 +30,10 @@ build: false
 
 test_script:
   - python -c "import pygimli; pygimli.test(show=False)"
+
+notifications:
+  - provider: Email
+    to:
+      - thomas@pygimli.org
+      - florian@pygimli.org
+    on_build_success: false

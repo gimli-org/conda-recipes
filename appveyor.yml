@@ -1,0 +1,32 @@
+# Build only the master branch
+branches:
+  only:
+    - master
+
+# Don't run the (redundant) branch build with a pull request
+skip_branch_with_pr: true
+
+matrix:
+  fast_finish: true
+
+environment:
+  PYTHONUNBUFFERED: 1
+  COVERAGE_DIR: ""
+  MINICONDA: C:\\Miniconda3-x64
+  matrix:
+    - PYTHON_VERSION: 3.7
+    #- PYTHON_VERSION: 3.6
+
+install:
+  - mkdir C:\Users\appveyor\.conda
+  - call %MINICONDA%\Scripts\activate.bat
+  # The safety checks are simply intended to ensure that there is enough disk space
+  # and the user has the necessary permissions to make environment changes. In a CI
+  # environment these are not necessary and slow things down noticeably on Windows.
+  - conda config --set always_yes yes --set changeps1 no --set auto_update_conda no --set safety_checks disabled
+  - conda install -q -c gimli -c conda-forge pygimli
+
+build: false
+
+test_script:
+  - python -c "import pygimli; pygimli.test(show=False)"

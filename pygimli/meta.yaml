@@ -4,9 +4,11 @@ package:
     # number of commits since the last tag, i.e. 1.0.5_137 This assures that
     # also intermediate versions will trigger an update of anaconda badges.
     name: pygimli
-    version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
+    #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
+    version: 1.0.12
 
 build:
+    number: 1
     rpaths:
         - lib/
         - lib64/
@@ -14,8 +16,8 @@ build:
 source:
     # From GIT
     git_url: https://github.com/gimli-org/gimli.git
-    #git_tag: dev
-    git_tag: v1.0.11
+    #git_tag: fw_cleaning
+    git_tag: v1.0.12
     #OR LOCAL to DEBUG
     #path: /local/path/gimli/trunk
 
@@ -44,8 +46,9 @@ requirements:
         - {{ pin_compatible('numpy', max_pin='x.x') }}
         - matplotlib
         - openblas
-        - scipy # for workshop only
+        - scipy
         - pytest
+        - pyvista
 
 test:
     imports:
@@ -55,6 +58,7 @@ test:
         - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
 
 about:
-    home: http://www.pygimli.org
+    home: https://www.pygimli.org
     summary: Geophysical Inversion and Modelling Library
     license: Apache
+    dev_url: https://www.github.com/gimli-org/gimli

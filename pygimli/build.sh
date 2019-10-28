@@ -52,14 +52,14 @@ pushd $GIMLI_BUILD
           -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
 
     make -j$PARALLEL_BUILD #VERBOSE=0
-    make apps -j$PARALLEL_BUILD
+    #make apps -j$PARALLEL_BUILD
     make pygimli J=$PARALLEL_BUILD
 popd
 
 # Make conda find GIMLi libraries and executables
 echo "Installing at .. " $PREFIX
 # C++ part
-mkdir -p $PREFIX/bin
+#mkdir -p $PREFIX/bin
 mkdir -p $PREFIX/lib
 cp -v $GIMLI_BUILD/lib/*.so $PREFIX/lib
 
@@ -71,7 +71,7 @@ fi
 
 mkdir -p $PREFIX/include/gimli
 mv -v $GIMLI_SOURCE/src $PREFIX/include/gimli # header files for bert
-cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
+#cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part
 export PYTHONUSERBASE=$PREFIX
 pushd $GIMLI_SOURCE/python

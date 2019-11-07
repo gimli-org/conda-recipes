@@ -1,0 +1,39 @@
+package:
+    # INFO:
+    # The version is generated from the last git tag, an underscore and the
+    # number of commits since the last tag, i.e. 1.0.5_137 This assures that
+    # also intermediate versions will trigger an update of anaconda badges.
+    name: comet
+    version: {{ GIT_DESCRIBE_TAG + "_" + GIT_DESCRIBE_NUMBER }}
+
+source:
+#    # From GIT
+    git_url: https://gitlab.com/Skibbe/comet.git
+#    # git_tag: master
+    git_tag: 0.9.9
+#     path: ..
+#    path: c:\msys64\home\Guenther.T\src\comet 
+
+requirements:
+    host:
+        - python {{ PY_VER }}
+    run:
+        - python {{ PY_VER }}
+        - pygimli=1.0.12
+        - numpy
+        - tetgen
+        - h5py
+        - scipy
+        - matplotlib
+test:
+    imports:
+        - comet
+        - pygimli
+    commands:
+        - python -c "import comet"
+        - python -c "import pygimli"
+
+about:
+    home: https://comet-project.readthedocs.io/
+    summary: COupled Magnetic resonance and Electrical resistivity Tomography
+    license: LGPL

@@ -17,7 +17,8 @@ requirements:
         - python {{ PY_VER }}
     run:
         - python {{ PY_VER }}
-        - pygimli >= 1.0.12, < 1.1 # fix for paper revision
+          # - pygimli >= 1.0.12, < 1.1 # fix for paper revision
+        - pygimli=1.0.12 # fix for paper revision
         - numpy
         - tetgen
         - h5py

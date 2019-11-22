@@ -10,19 +10,21 @@ source:
 #    # From GIT
     git_url: https://gitlab.com/Rochlitz.R/custEM.git
 #    # git_tag: master
-    git_tag: custEM-v-0.98.c
+#    git_tag: custEM-v-0.98.c
+    git_tag: custEM-v-0.99.02
 #    path: ../../custEM/custEM
 
 requirements:
     host:
-        - python =3.7.3
+        - python
     run:
-        - python =3.7.3
+        - python
         - fenics >=2019.1
         - pygimli
-        - numpy =1.15.4
+        - numpy
         - mpi4py
         - tetgen
+        - comet
 test:
     imports:
         - dolfin
@@ -32,9 +34,10 @@ test:
         - python -c "import dolfin"
         - python -c "import pygimli"
         - python -c "import custEM"
+        - python -c "import comet"
         - python -c "import custEM; custEM.run_tests()"
 
 about:
     home: https://custem.readthedocs.io/en/latest/
     summary: customizable controlled-source electromagnetic modeling
-    license: LGPL
+    license: GPL

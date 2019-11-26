@@ -10,7 +10,7 @@ source:
 #    # From GIT
     git_url: https://gitlab.com/Skibbe/comet.git
 #    # git_tag: master
-    git_tag: 0.9.9
+    git_tag: 0.9.10
 
 requirements:
     host:

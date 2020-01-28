@@ -10,15 +10,14 @@ source:
 #    # From GIT
     git_url: https://gitlab.com/Skibbe/comet.git
 #    # git_tag: master
-    git_tag: 0.9.10
+    git_tag: 1.0.0
 
 requirements:
     host:
         - python {{ PY_VER }}
     run:
         - python {{ PY_VER }}
-          # - pygimli >= 1.0.12, < 1.1 # fix for paper revision
-        - pygimli=1.0.12 # fix for paper revision
+        - pygimli
         - numpy
         - tetgen
         - h5py
@@ -35,4 +34,4 @@ test:
 about:
     home: https://comet-project.readthedocs.io/
     summary: COupled Magnetic resonance and Electrical resistivity Tomography
-    license: LGPL
+    license: GPL

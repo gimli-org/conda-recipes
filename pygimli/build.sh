@@ -4,6 +4,7 @@
 # TODO: We need more flexible structures here (i.e. in the abensence of trunk)
 shopt -s extglob
 unset PYTHONPATH
+unset CMAKE_PREFIX_PATH
 
 GIMLI_ROOT=$(pwd)
 export GIMLI_BUILD=$GIMLI_ROOT/gimli/build
@@ -14,42 +15,37 @@ mkdir -p $GIMLI_BUILD
 
 typeset -i PARALLEL_BUILD
 PARALLEL_BUILD=$CPU_COUNT
+export PARALLEL_BUILD=$PARALLEL_BUILD/2 # only use half of CPUs
 
-export PARALLEL_BUILD=$PARALLEL_BUILD/2
 export UPDATE_ONLY=0
 export BRANCH=dev
 
+# Python version without point, i.e. "36".
 py=$(echo $PY_VER | sed -e 's/\.//g')
 
-# Install castxml from binary to avoid any clang/llvm related issues
-if [ "$(uname)" == "Darwin" ];
-then
-    export BLAS=libopenblas.dylib
-    export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}m.dylib
-    export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python3.dylib
-elif [ "$(uname)" == "Linux" ]
-then
-    export BLAS=libopenblas.so
-    if [ $PY3K -eq 1 ]; then
-        export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}m.so
-        export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python$py.so
-    else
-        export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython$PY_VER.so
-        export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python$py.so
-    fi
+# Mac specific
+if [ "$(uname)" == "Darwin" ]; then
+  export LDFLAGS="-rpath ${PREFIX}/lib ${LDFLAGS}"
+  export LINKFLAGS="${LDFLAGS}"
+  skiprpath="-DCMAKE_SKIP_RPATH=TRUE"
 else
-    echo "This system is unsupported by our toolchain."
-    exit 1
+  skiprpath=""
 fi
+
+export BLAS=libopenblas${SHLIB_EXT}
+export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}m${SHLIB_EXT}
+export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python${py}${SHLIB_EXT}
 
 export AVOID_GIMLI_TEST=1
 
 pushd $GIMLI_BUILD
 
-    CLEAN=1 cmake $GIMLI_SOURCE $BOOST \
-          -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
-          -DAVOID_CPPUNIT=TRUE \
-          -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
+    CLEAN=1 cmake $GIMLI_SOURCE $BOOST $PYTHONSPECS $skiprpath \
+		-DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
+	    -DCMAKE_INSTALL_PREFIX=$PREFIX \
+	    -DPYTHON_EXECUTABLE=$PREFIX/bin/python \
+        -DAVOID_CPPUNIT=TRUE \
+        -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
 
     make -j$PARALLEL_BUILD #VERBOSE=0
     #make apps -j$PARALLEL_BUILD
@@ -61,13 +57,7 @@ echo "Installing at .. " $PREFIX
 # C++ part
 #mkdir -p $PREFIX/bin
 mkdir -p $PREFIX/lib
-cp -v $GIMLI_BUILD/lib/*.so $PREFIX/lib
-
-if [ "$(uname)" == "Darwin" ];
-then
-    # for Mac OSX
-    cp -v $GIMLI_BUILD/lib/*.dylib $PREFIX/lib
-fi
+cp -v $GIMLI_BUILD/lib/*${SHLIB_EXT} $PREFIX/lib
 
 mkdir -p $PREFIX/include/gimli
 mv -v $GIMLI_SOURCE/src $PREFIX/include/gimli # header files for bert

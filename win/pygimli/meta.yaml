@@ -49,8 +49,11 @@ requirements:
         - matplotlib >=2.1.2 # weird plotting bug in 2.1
         - qt
         # - openblas
-        # - scipy # for workshop only
-        # - pytest ==3.7 # 3.8 not working yet, need to check why
+        - scipy # for workshop only
+        - pytest
+        - tetgen
+        - pyvista
+        - pyqt
 
 #test:
 #    imports:

@@ -60,10 +60,10 @@ mkdir -p $PREFIX/lib
 cp -v $GIMLI_BUILD/lib/*${SHLIB_EXT} $PREFIX/lib
 
 mkdir -p $PREFIX/include/gimli
-mv -v $GIMLI_SOURCE/src $PREFIX/include/gimli # header files for bert
+mv -v $GIMLI_SOURCE/core/src $PREFIX/include/gimli # header files for bert
 #cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part
 export PYTHONUSERBASE=$PREFIX
-pushd $GIMLI_SOURCE/python
+pushd $GIMLI_SOURCE
      python setup.py install --user
 popd

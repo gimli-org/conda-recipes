@@ -15,13 +15,12 @@ source:
     git_url: https://gitlab.com/resistivity-net/bert
     #git_tag: dev # build from dev branch
     #path: /home/wagner/git/bert/trunk
-    git_tag: v2.2.11
+    git_tag: v2.3.0
 
 requirements:
     host:
         - python {{ PY_VER }}
-        - py-boost 1.67.*
-        - pygimli >=1.0.12
+        - pygimli >=1.1.0
 
     build:
         - python {{ PY_VER }}
@@ -29,13 +28,11 @@ requirements:
         - {{ compiler('cxx') }}
         - cmake >=2.9
         - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
-        - {{ pin_compatible('py-boost', min_pin='x.x', max_pin='x.x') }}
-        - pygimli >=1.0.12
+        - pygimli >=1.1.0
 
     run:
         - python {{ PY_VER }}
-        - pygimli >=1.0.12
-        - tetgen
+        - pygimli >=1.1.0
 
 test:
     imports:

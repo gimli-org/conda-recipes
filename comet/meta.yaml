@@ -17,10 +17,10 @@ build:
 
 requirements:
     host:
-        - python >=3.6
+        - python {{ PY_VER }}
     run:
-        - python >=3.6
-        - pygimli
+        - python {{ PY_VER }}
+        - pygimli >=1.1
         - numpy
         - tetgen
         - h5py

@@ -4,7 +4,7 @@ package:
     # number of commits since the last tag, i.e. 2.2.6_13. This assures that
     # also intermediate versions will trigger an update of anaconda badges.
     name: pybert
-    version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
+    version: {{ GIT_DESCRIBE_TAG[1:] }}
 
 build:
     rpaths:
@@ -15,24 +15,24 @@ source:
     git_url: https://gitlab.com/resistivity-net/bert
     #git_tag: dev # build from dev branch
     #path: /home/wagner/git/bert/trunk
-    git_tag: v2.3.0
+    git_tag: v2.3.1
 
 requirements:
     host:
         - python {{ PY_VER }}
-        - pygimli >=1.1.0
+        - pygimli >=1.1.1
 
     build:
         - python {{ PY_VER }}
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - cmake >=2.9
-        - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
-        - pygimli >=1.1.0
+        - {{ pin_compatible('python', min_pin='{{ PY_VER }}', max_pin='{{ PY_VER }}.x') }}
+        - pygimli >=1.1.1
 
     run:
         - python {{ PY_VER }}
-        - pygimli >=1.1.0
+        - pygimli >=1.1.1
 
 test:
     imports:

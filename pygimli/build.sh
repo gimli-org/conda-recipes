@@ -33,7 +33,7 @@ else
 fi
 
 export BLAS=libopenblas${SHLIB_EXT}
-export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}m${SHLIB_EXT}
+export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython3${SHLIB_EXT}
 export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python${py}${SHLIB_EXT}
 
 export AVOID_GIMLI_TEST=1

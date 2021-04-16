@@ -49,13 +49,7 @@ requirements:
         - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('boost',min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('numpy', max_pin='x.x') }}
-        - matplotlib
         - openblas
-        - scipy
-        - pytest
-        - tetgen
-        - pyqt
-        - pyvista >=0.23.2
 
 test:
     imports:

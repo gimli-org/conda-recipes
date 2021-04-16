@@ -61,7 +61,7 @@ mkdir -p $PREFIX/include/gimli
 mv -v $GIMLI_SOURCE/core/src $PREFIX/include/gimli # header files for bert
 #cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part
-mv -v $GIMLI_SOURCE/pygimli/core/*${SHLIB_EXT} $GIMLI_ROOT/pgcore/pgcore
+mv -v $GIMLI_SOURCE/pygimli/core/*.so $GIMLI_ROOT/pgcore/pgcore
 
 export PYTHONUSERBASE=$PREFIX
 pushd $GIMLI_ROOT/pgcore

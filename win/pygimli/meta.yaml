@@ -54,8 +54,11 @@ requirements:
         - pyqt
         - pyvista >=0.23.2
         # - openblas
-        # - scipy # for workshop only
-        # - pytest ==3.7 # 3.8 not working yet, need to check why
+        - scipy # for workshop only
+        - pytest
+        - tetgen
+        - pyvista
+        - pyqt
 
 #test:
 #    imports:

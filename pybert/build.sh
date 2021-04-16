@@ -11,6 +11,13 @@ PARALLEL_BUILD=$CPU_COUNT
 
 export PARALLEL_BUILD=$PARALLEL_BUILD
 ##
+# Mac specific                                                                                                                                                                    
+if [ "$(uname)" == "Darwin" ]; then                                                                                                                                               
+  export LDFLAGS="-rpath ${PREFIX}/lib ${LDFLAGS}"
+  export LINKFLAGS="${LDFLAGS}"                                                                                                                                                     skiprpath="-DCMAKE_SKIP_RPATH=TRUE"                                                                                                                                             
+else                                                                                                                                                                              
+  skiprpath=""                                                                                                                                                                    
+fi        
 
 BERT_ROOT=$(pwd)
 export BERT_BUILD=$BERT_ROOT/bert/build
@@ -25,8 +32,8 @@ export CMAKE_PREFIX_PATH=$CONDA_PREFIX
 
 pushd $BERT_BUILD
     cmake $BERT_SOURCE \
-        -DGIMLI_LIBRARIES="${CONDA_PREFIX}/lib/libgimli.so" \
-        -DGIMLI_INCLUDE_DIR="${CONDA_PREFIX}/include/gimli/src"
+        -DGIMLI_LIBRARIES="${CONDA_PREFIX}/lib/libgimli${SHLIB_EXT}" \
+        -DGIMLI_INCLUDE_DIR="${CONDA_PREFIX}/include/gimli/src" $skiprpath
     VERBOSE=1 make -j$PARALLEL_BUILD bert1 dcinv dcmod dcedit
 popd
 
@@ -35,7 +42,7 @@ echo "Installing at .. " $PREFIX
 # C++ part
 mkdir -p $PREFIX/bin
 mkdir -p $PREFIX/lib
-cp -v $BERT_BUILD/lib/*.so $PREFIX/lib
+cp -v $BERT_BUILD/lib/*${SHLIB_EXT} $PREFIX/lib
 cp -v $BERT_BUILD/bin/* $PREFIX/bin
 cp -vr $BERT_SOURCE/examples $PREFIX/share
 #cp -v ~/git/bert/trunk/doc/tutorial/bert-tutorial.pdf $PREFIX/share

@@ -9,8 +9,6 @@ unset CMAKE_PREFIX_PATH
 GIMLI_ROOT=$(pwd)
 export GIMLI_BUILD=$GIMLI_ROOT/build
 export GIMLI_SOURCE=$GIMLI_ROOT/gimli
-mkdir -p $GIMLI_SOURCE
-mv !(gimli) $GIMLI_SOURCE
 mkdir -p $GIMLI_BUILD
 
 typeset -i PARALLEL_BUILD

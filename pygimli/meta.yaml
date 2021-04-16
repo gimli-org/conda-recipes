@@ -1,11 +1,11 @@
 package:
-    # INFO:
-    # The version is generated from the last git tag, an underscore and the
-    # number of commits since the last tag, i.e. 1.0.5_137 This assures that
-    # also intermediate versions will trigger an update of anaconda badges.
-    name: pygimli
-    #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
-    version: 1.2.0
+  # INFO:
+  # The version is generated from the last git tag, an underscore and the
+  # number of commits since the last tag, i.e. 1.0.5_137 This assures that
+  # also intermediate versions will trigger an update of anaconda badges.
+  name: pygimli
+  #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
+  version: 1.2.0
 
 build:
   noarch: python
@@ -13,39 +13,40 @@ build:
   script: export PYTHONUSERBASE=$PREFIX && python setup.py install --user
 
 source:
-    # From GIT
-    git_url: https://github.com/gimli-org/gimli.git
-    #git_tag: release
-    git_tag: dev
-    # git_tag: v1.1.1
-    #OR LOCAL to DEBUG
-    #path: /home/wagner/git/gimli_fw/trunk
+  # From GIT
+  git_url: https://github.com/gimli-org/gimli.git
+  #git_tag: release
+  git_tag: dev
+  # git_tag: v1.1.1
+  #OR LOCAL to DEBUG
+  #path: /home/wagner/git/gimli_fw/trunk
 
 requirements:
-    host:
-        - python
+  host:
+    - python
 
-    run:
-        - python
-        - pgcore =1.2.0
-        - matplotlib
-        - scipy
-        - pytest
-        - tetgen
-        - pyqt
-        - pyvista >=0.23.2
+  run:
+    - python
+    - pgcore =1.2.0
+    - matplotlib
+    - scipy
+    - pytest
+    - tetgen
+    - pyqt
+    - pyvista >=0.23.2
 
 test:
-    imports:
-        - pgcore
-        - pygimli
-    commands:
-        - pytripatch -h # Python app
-        - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
-        - python -c "import pygimli; pygimli.version()"
+  imports:
+    - pgcore
+    - pygimli
+  commands:
+    - pytripatch -h # Python app
+    - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
+    - python -c "import pygimli; pygimli.version()"
 
 about:
-    home: https://www.pygimli.org
-    summary: Geophysical Inversion and Modelling Library
-    license: Apache
-    dev_url: https://www.github.com/gimli-org/gimli
+  home: https://www.pygimli.org
+  summary: Geophysical Inversion and Modelling Library
+  license: Apache
+  dev_url: https://www.github.com/gimli-org/gimli
+  doc_url: https://www.pygimli.org

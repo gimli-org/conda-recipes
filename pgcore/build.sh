@@ -7,14 +7,11 @@ unset PYTHONPATH
 unset CMAKE_PREFIX_PATH
 
 GIMLI_ROOT=$(pwd)
-export GIMLI_BUILD=$GIMLI_ROOT/gimli/build
-export GIMLI_SOURCE=$GIMLI_ROOT/gimli/gimli
+export GIMLI_BUILD=$GIMLI_ROOT/build
+export GIMLI_SOURCE=$GIMLI_ROOT/gimli
 mkdir -p $GIMLI_SOURCE
 mv !(gimli) $GIMLI_SOURCE
 mkdir -p $GIMLI_BUILD
-
-echo $(pwd)
-exit
 
 typeset -i PARALLEL_BUILD
 PARALLEL_BUILD=$CPU_COUNT
@@ -43,16 +40,16 @@ export AVOID_GIMLI_TEST=1
 
 pushd $GIMLI_BUILD
 
-    CLEAN=1 cmake $GIMLI_SOURCE $BOOST $PYTHONSPECS $skiprpath \
-		-DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
-	    -DCMAKE_INSTALL_PREFIX=$PREFIX \
-	    -DPYTHON_EXECUTABLE=$PREFIX/bin/python \
-        -DAVOID_CPPUNIT=TRUE \
-        -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
+CLEAN=1 cmake $GIMLI_SOURCE $BOOST $PYTHONSPECS $skiprpath \
+  -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
+  -DCMAKE_INSTALL_PREFIX=$PREFIX \
+  -DPYTHON_EXECUTABLE=$PREFIX/bin/python \
+  -DAVOID_CPPUNIT=TRUE \
+  -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
 
-    make -j$PARALLEL_BUILD #VERBOSE=0
-    #make apps -j$PARALLEL_BUILD
-    make pygimli J=$PARALLEL_BUILD
+make -j$PARALLEL_BUILD #VERBOSE=0
+#make apps -j$PARALLEL_BUILD
+make pygimli J=$PARALLEL_BUILD
 popd
 
 # Make conda find GIMLi libraries and executables
@@ -70,5 +67,5 @@ mv -v $GIMLI_SOURCE/pygimli/core/*${SHLIB_EXT} $GIMLI_ROOT/pgcore/pgcore
 
 export PYTHONUSERBASE=$PREFIX
 pushd $GIMLI_ROOT/pgcore
-  python setup.py install --user
+python setup.py install --user
 popd

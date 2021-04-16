@@ -70,5 +70,5 @@ mv -v $GIMLI_SOURCE/pygimli/core/*${SHLIB_EXT} $GIMLI_ROOT/pgcore/pgcore
 
 export PYTHONUSERBASE=$PREFIX
 pushd $GIMLI_ROOT/pgcore
-  ${PYTHON} setup.py install --user
+  python setup.py install --user
 popd

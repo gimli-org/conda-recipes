@@ -64,6 +64,7 @@ mv -v $GIMLI_SOURCE/core/src $PREFIX/include/gimli # header files for bert
 #cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part
 export PYTHONUSERBASE=$PREFIX
-pushd $GIMLI_SOURCE
-     python setup.py install --user
+pushd $GIMLI_SOURCE/pygimli/core
+  mv *${SHLIB_EXT} pgcore
+  python setup.py install --user
 popd

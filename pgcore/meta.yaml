@@ -3,14 +3,15 @@ package:
     # The version is generated from the last git tag, an underscore and the
     # number of commits since the last tag, i.e. 1.0.5_137 This assures that
     # also intermediate versions will trigger an update of anaconda badges.
-    name: pygimli
+    name: pgcore
     #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
     version: 1.2.0
 
 build:
-  noarch: python
-  number: 0
-  script: export PYTHONUSERBASE=$PREFIX && python setup.py install --user
+    number: 0
+    rpaths:
+        - lib/
+        - lib64/
 
 source:
     # From GIT
@@ -23,12 +24,30 @@ source:
 
 requirements:
     host:
-        - python
+        - python {{ PY_VER }}
+        - numpy 1.19.*
+        - boost 1.73.*
+
+    build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake >=2.9
+        - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
+        - {{ pin_compatible('boost', min_pin='x.x', max_pin='x.x') }}
+        - {{ pin_compatible('numpy', max_pin='x.x') }}
+        - suitesparse
+        - openblas
+        - wget # [not linux]
+        - mercurial # [not linux]
 
     run:
-        - python
-        - pgcore =1.2.0
+        - gxx_{{ target_platform }} # [not osx]
+        - suitesparse
+        - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
+        - {{ pin_compatible('boost',min_pin='x.x', max_pin='x.x') }}
+        - {{ pin_compatible('numpy', max_pin='x.x') }}
         - matplotlib
+        - openblas
         - scipy
         - pytest
         - tetgen
@@ -38,11 +57,6 @@ requirements:
 test:
     imports:
         - pgcore
-        - pygimli
-    commands:
-        - pytripatch -h # Python app
-        - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
-        - python -c "import pygimli; pygimli.version()"
 
 about:
     home: https://www.pygimli.org

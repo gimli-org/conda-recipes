@@ -1,0 +1,49 @@
+package:
+    # INFO:
+    # The version is generated from the last git tag, an underscore and the
+    # number of commits since the last tag, i.e. 2.2.6_13. This assures that
+    # also intermediate versions will trigger an update of anaconda badges.
+    name: pybert
+    # version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
+
+build:
+    rpaths:
+        - lib/
+        - lib64/
+
+source:
+    # git_url: https://gitlab.com/resistivity-net/bert
+    #git_tag: dev # build from dev branch
+    #path: /home/wagner/git/bert/trunk
+    # git_tag: v2.2.10
+    path: c:\msys64\home\Guenther.T\src\bert\bert\python 
+
+requirements:
+    host:
+        - python {{ PY_VER }}
+        - py-boost 1.67.*
+        - pygimli >=1.0.11
+
+    build:
+        - python {{ PY_VER }}
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake >=2.9
+        - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
+        - {{ pin_compatible('py-boost', min_pin='x.x', max_pin='x.x') }}
+        - pygimli >=1.0.11
+
+    run:
+        - python {{ PY_VER }}
+        - pygimli >=1.0.11
+        - tetgen
+
+test:
+    imports:
+      - pybert
+    commands:
+      - dcinv -h
+
+about:
+    home: http://www.resistivity.net
+    summary: Boundless Electrical Resistivity Tomography

@@ -13,6 +13,9 @@ mkdir -p $GIMLI_SOURCE
 mv !(gimli) $GIMLI_SOURCE
 mkdir -p $GIMLI_BUILD
 
+echo $(pwd)
+exit
+
 typeset -i PARALLEL_BUILD
 PARALLEL_BUILD=$CPU_COUNT
 export PARALLEL_BUILD=$PARALLEL_BUILD/2 # only use half of CPUs
@@ -63,8 +66,9 @@ mkdir -p $PREFIX/include/gimli
 mv -v $GIMLI_SOURCE/core/src $PREFIX/include/gimli # header files for bert
 #cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
 # Python part
+mv -v $GIMLI_SOURCE/pygimli/core/*${SHLIB_EXT} $GIMLI_ROOT/pgcore/pgcore
+
 export PYTHONUSERBASE=$PREFIX
-pushd $GIMLI_SOURCE/pygimli/core
-  mv *${SHLIB_EXT} pgcore
-  python setup.py install --user
+pushd $GIMLI_ROOT/pgcore
+  ${PYTHON} setup.py install --user
 popd

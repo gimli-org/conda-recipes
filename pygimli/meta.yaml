@@ -16,7 +16,7 @@ source:
     # From GIT
     git_url: https://github.com/gimli-org/gimli.git
     #git_tag: release
-    git_tag: pgcore
+    git_tag: dev
     # git_tag: v1.1.1
     #OR LOCAL to DEBUG
     #path: /home/wagner/git/gimli_fw/trunk

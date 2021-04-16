@@ -27,7 +27,7 @@ source:
 
 requirements:
     host:
-        - python {{ PY_VER }}
+        - python {{ PY_VER }}    
         - numpy 1.19.*
         - boost 1.73.*
 
@@ -35,7 +35,7 @@ requirements:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - cmake >=2.9
-        - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
+        - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }} # [build_platform != target_platform]
         - {{ pin_compatible('boost', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('numpy', max_pin='x.x') }}
         - suitesparse

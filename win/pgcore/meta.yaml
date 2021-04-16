@@ -3,9 +3,9 @@ package:
     # The version is generated from the last git tag, an underscore and the
     # number of commits since the last tag, i.e. 1.0.5_137 This assures that
     # also intermediate versions will trigger an update of anaconda badges.
-    name: pygimli
+    name: pgcore
     # version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
-    version: 1.1.1
+    version: 1.2.0
 
 #build:
 #    rpaths:
@@ -19,7 +19,7 @@ source:
     # OR LOCAL to DEBUG
     # path: /local/path/gimli/trunk
     # path: c:\msys64\home\Guenther.T\src\gimli\gimli37\python 
-    path: c:\Guenther.T\src\gimli\gimli
+    path: c:\Guenther.T\src\gimli\gimli\pygimli\core
     # path: ../gimli/gimli 
 
 #build:
@@ -47,12 +47,12 @@ requirements:
         # - {{ pin_compatible('py-boost', max_pin=None)}}
         # - {{ pin_compatible('numpy', max_pin=None)}}
         - numpy=1.18
-        - scipy
+        # - scipy
         - pytest
-        - matplotlib
-        - tetgen
-        - pyqt
-        - pyvista >=0.23.2
+        # - matplotlib
+        # - tetgen
+        # - pyqt
+        # - pyvista >=0.23.2
         # - openblas
         # - scipy # for workshop only
         # - pytest ==3.7 # 3.8 not working yet, need to check why

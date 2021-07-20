@@ -9,18 +9,18 @@ package:
 source:
 #    # From GIT
     git_url: https://gitlab.com/Skibbe/comet.git
-    git_tag: master
-    # git_tag: 1.1.0
+    # git_tag: master
+    git_tag: 1.1.1
 
 build:
-    noarch: generic
+    noarch: python
 
 requirements:
     host:
-        - python {{ PY_VER }}
+        - python  >=3.7 #  {{ PY_VER }}
     run:
-        - python {{ PY_VER }}
-        - pygimli >=1.1
+        - python >=3.7 #  {{ PY_VER }}
+        - pygimli >=1.2
         - numpy
         - tetgen
         - h5py

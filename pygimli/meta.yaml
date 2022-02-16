@@ -5,7 +5,7 @@ package:
   # also intermediate versions will trigger an update of anaconda badges.
   name: pygimli
   #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
-  version: 1.2.3
+  version: 1.2.4
 
 build:
   noarch: python
@@ -17,7 +17,7 @@ source:
   git_url: https://github.com/gimli-org/gimli.git
   #git_tag: release
   #git_tag: dev
-  git_tag: v1.2.3
+  git_tag: v1.2.4
   #OR LOCAL to DEBUG
   #path: /home/wagner/git/gimli_fw/trunk
 
@@ -27,8 +27,8 @@ requirements:
 
   run:
     - python
-    - pgcore =1.2.3
-    - matplotlib <=3.4 # need to fix some 3.5 issues
+    - pgcore =1.2.4
+    - matplotlib
     - scipy
     - pytest
     - tetgen

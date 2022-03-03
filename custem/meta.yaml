@@ -7,35 +7,36 @@ package:
     version: {{ GIT_DESCRIBE_TAG[9:] }}
 
 source:
-#    # From GIT
-    git_url: https://gitlab.com/Rochlitz.R/custEM.git
-#    # git_tag: master
-#    git_tag: custEM-v-0.98.c
-    git_tag: custEM-v-0.99.02
-#    path: ../../custEM/custEM
+#    # From GIT #
+     git_url: https://gitlab.com/Rochlitz.R/custEM.git
+     git_tag: custEM-v-1.2.0
+#    git_tag: conda_test_0
+#    git_tag: develop
+
+#    # From local version #
+#     path: ../../custEM/custEM
+
+build:
+    noarch: python # generic or # python for noarch which does not work
 
 requirements:
     host:
-        - python
+        - python =3.9
     run:
-        - python
-        - fenics >=2019.1
-        - pygimli
-        - numpy
-        - mpi4py
-        - tetgen
-        - comet
+        - python =3.9
+        - pygimli =1.2.4
+        - fenics =2019
+        - tetgen =1.6
+        - comet =1
+        #- psutil
+        #- petsc >=3.16
 test:
-    imports:
-        - dolfin
-        - pygimli
-        - custEM
     commands:
         - python -c "import dolfin"
         - python -c "import pygimli"
-        - python -c "import custEM"
         - python -c "import comet"
-        - python -c "import custEM; custEM.run_tests()"
+        - python -c "import custEM"
+#        - python -c "import custEM; custEM.run_tests()"
 
 about:
     home: https://custem.readthedocs.io/en/latest/

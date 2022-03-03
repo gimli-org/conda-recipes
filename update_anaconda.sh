@@ -2,12 +2,13 @@
 conda build purge # remove intermediate builds
 
 anaconda login
+conda config --set anaconda_upload yes
+
 for pkg in pgcore; do
-#for pkg in pygimli; do
-    for py in 3.8 3.7 3.9; do
+    for py in 3.10 3.9 3.8; do
     name=`conda build $pkg --python $py --output`
     echo "Building $name"
-    sleep 5
-    conda build -c conda-forge --python $py $pkg && anaconda upload --force $name
-done
+    sleep 3
+    conda build -c conda-forge --python $py $pkg
+    done
 done

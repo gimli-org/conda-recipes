@@ -33,7 +33,7 @@ requirements:
     - pytest
     - tetgen
     - pyqt
-    - pyvista =0.24
+    - pyvista =0.34
 
 test:
   imports:

@@ -47,6 +47,7 @@ test:
 about:
   home: https://www.pygimli.org
   summary: Geophysical Inversion and Modelling Library
-  license: Apache
+  license: Apache v2.0
+  license_file: COPYING.rst
   dev_url: https://www.github.com/gimli-org/gimli
   doc_url: https://www.pygimli.org

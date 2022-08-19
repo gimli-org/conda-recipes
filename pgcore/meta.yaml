@@ -34,7 +34,7 @@ requirements:
     build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - cmake >=2.9
+        - cmake >=3.15
         - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('boost', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('numpy', max_pin='x.x') }}
@@ -59,6 +59,7 @@ test:
 about:
     home: https://www.pygimli.org
     summary: Geophysical Inversion and Modelling Library
-    license: Apache
+    license: Apache v2.0
+    license_file: COPYING.rst
     dev_url: https://www.github.com/gimli-org/gimli
     doc_url: https://www.pygimli.org

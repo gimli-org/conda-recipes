@@ -13,7 +13,7 @@ mkdir -p $GIMLI_BUILD
 
 typeset -i PARALLEL_BUILD
 PARALLEL_BUILD=$CPU_COUNT
-export PARALLEL_BUILD=$PARALLEL_BUILD/2 # only use half of CPUs
+export PARALLEL_BUILD=$PARALLEL_BUILD-2 # Number of CPUs -2
 
 export UPDATE_ONLY=0
 export BRANCH=dev

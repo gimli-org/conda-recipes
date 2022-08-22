@@ -1,4 +1,7 @@
 #!/bin/bash
+# If you experience problems with downloading third party sources you can specifiy a local source path for copy them from instead downloading them
+# export GIMLI_THIRDPARTY_SRC=
+
 conda build purge # remove intermediate builds
 
 anaconda login

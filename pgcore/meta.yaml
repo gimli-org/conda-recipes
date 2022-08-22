@@ -50,7 +50,6 @@ requirements:
         - {{ pin_compatible('boost',min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('numpy', max_pin='x.x') }}
         - openblas
-        - matplotlib
 
 test:
     imports:

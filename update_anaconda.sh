@@ -5,7 +5,11 @@
 # Perform manual build e.g., conda build -c conda-forge --python 3.8 pgcore
 #
 function help(){
-    echo "usage: ${0##*/} package"
+    echo "usage: ${0##*/} package [py]"
+    echo "############################"
+    echo "Examples:"
+    echo "bash ${0##*/} pgcore # pgcore for all supported python versions"
+    echo "bash ${0##*/} pgcore 3.10 # pgcore for python-3.10"
     exit
 }
 
@@ -28,7 +32,7 @@ if [ "$ret" == "1" ]; then
     anaconda login
     conda config --set anaconda_upload yes
 else
-    echo 'Anaconda login skipped.'
+    echo 'Anaconda already logged in.'
 fi
 }
 
@@ -37,7 +41,9 @@ fi
 
 PKG=$1
 
-echo "Building package: $PKG"
+[ $# -gt 1 ] && ALLPY=($2) || ALLPY=(3.8 3.9 3.10)
+
+echo "Building package: $PKG for ${ALLPY[@]}"
 
 echo "purging old builds ..."
 conda build purge # remove intermediate builds
@@ -46,18 +52,17 @@ echo "... done"
 # check if already logged in
 # manuell log off with 'anaconda logout'
 ensureAnacondaLogin
-
-if [ "$PKG" == "pgcore" ]; then
-    #for py in 3.10 3.9 3.8; do
-    for PY in 3.9 3.8; do
-        echo "Generating building name ..."
+if [[ $PKG = *pgcore* ]]; then
+#if [ "$PKG" == "pgcore" ]; then
+    for PY in ${ALLPY[@]}; do
+        echo "Generating build name for $PKG (py=$PY)..."
         name=`conda build $PKG --python $PY --output`
         echo "Building $name"
         sleep 1
         conda build -c conda-forge --python $PY $PKG
     done
 else
-    echo "Generating building name ..."
+    echo "Generating building name for $PKG ..."
     name=`conda build $PKG --output`
     echo "Building $name"
     sleep 1

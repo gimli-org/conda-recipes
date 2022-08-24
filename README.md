@@ -34,7 +34,7 @@ conda install -y conda-build # necessary to build packages
 conda install -y anaconda-client # necessary to upload packages
 conda activate base
 
-bash update_anaconda.sh
+bash update_anaconda.sh recipyPath [pyversion]
 ```
 
 

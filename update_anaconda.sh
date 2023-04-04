@@ -17,7 +17,7 @@ function ensureAnacondaLogin(){
 python << END
 from subprocess import PIPE, run, sys
 def syscall(command):
-    result = run(command, stdout=PIPE, stderr=PIPE, 
+    result = run(command, stdout=PIPE, stderr=PIPE,
                  universal_newlines=True, shell=True)
     return result.stdout, result.stderr
 out, err = syscall('anaconda whoami')
@@ -37,11 +37,11 @@ fi
 }
 
 # no argument -> help
-[ $# -lt 1 ] && help 
+[ $# -lt 1 ] && help
 
 PKG=$1
 
-[ $# -gt 1 ] && ALLPY=($2) || ALLPY=(3.8 3.9 3.10)
+[ $# -gt 1 ] && ALLPY=($2) || ALLPY=(3.9 3.10 3.11)
 
 echo "Building package: $PKG for ${ALLPY[@]}"
 
@@ -59,13 +59,13 @@ if [[ $PKG = *pgcore* ]]; then
         name=`conda build $PKG --python $PY --output`
         echo "Building $name"
         sleep 1
-        conda build -c conda-forge --python $PY $PKG
+        conda mambabuild -c conda-forge --python $PY $PKG # mambabuild is faster. You need to "conda install boa"
     done
 else
     echo "Generating building name for $PKG ..."
     name=`conda build $PKG --output`
     echo "Building $name"
     sleep 1
-    conda build -c conda-forge $PKG
+    conda mambabuild -c conda-forge $PKG
 fi
 

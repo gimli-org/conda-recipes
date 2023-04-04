@@ -6,6 +6,7 @@ shopt -s extglob
 unset PYTHONPATH
 unset CMAKE_PREFIX_PATH
 
+
 GIMLI_ROOT=$(pwd)
 export GIMLI_BUILD=$GIMLI_ROOT/build
 export GIMLI_SOURCE=$GIMLI_ROOT/gimli
@@ -22,16 +23,21 @@ export BRANCH=dev
 py=$(echo $PY_VER | sed -e 's/\.//g')
 
 # Mac specific
+declare -a CMAKE_PLATFORM_FLAGS
 if [ "$(uname)" == "Darwin" ]; then
   export LDFLAGS="-rpath ${PREFIX}/lib ${LDFLAGS}"
   export LINKFLAGS="${LDFLAGS}"
+  CMAKE_PLATFORM_FLAGS+=(-DCMAKE_OSX_SYSROOT="${CONDA_BUILD_SYSROOT}")
   skiprpath="-DCMAKE_SKIP_RPATH=TRUE"
 else
   skiprpath=""
+  sysroot=""
 fi
 
+export SYSTEM_VERSION_COMPAT=1
+
 export BLAS=libopenblas${SHLIB_EXT}
-export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython3${SHLIB_EXT}
+export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}
 export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python${py}${SHLIB_EXT}
 
 export AVOID_GIMLI_TEST=1
@@ -39,10 +45,12 @@ export AVOID_GIMLI_TEST=1
 pushd $GIMLI_BUILD
 
 CLEAN=1 cmake $GIMLI_SOURCE $BOOST $PYTHONSPECS $skiprpath \
-  -DCMAKE_PREFIX_PATH=$CONDA_PREFIX \
+  -DCMAKE_PREFIX_PATH=$PREFIX \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DPYTHON_EXECUTABLE=$PREFIX/bin/python \
   -DAVOID_CPPUNIT=TRUE \
+  -DOpenBLAS_INCLUDE_DIR=$PREFIX/include \
+  "${CMAKE_PLATFORM_FLAGS[@]}" \
   -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
 
 make -j$PARALLEL_BUILD #VERBOSE=0

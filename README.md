@@ -19,22 +19,16 @@ conda install pygimli
 
 Please see the installation instructions on www.pygimli.org for more details.
 
-For now this works on:
-
-- [x] Linux (64 bit) [![Build Status](https://travis-ci.org/gimli-org/conda-recipes.svg)](https://travis-ci.org/gimli-org/conda-recipes)
-- [x] Windows (64 bit) [![Build status](https://ci.appveyor.com/api/projects/status/q3kvckvsnw9a5890?svg=true)](https://ci.appveyor.com/project/florian-wagner/conda-recipes)
-- [ ] Mac OS (64 bit)
-
 ## Creating a new release
 
 ``` bash
 git clone https://github.com/gimli-org/conda-recipes
 cd conda-recipes
-conda install -y conda-build # necessary to build packages
+conda install -y conda-build boa # necessary to build packages
 conda install -y anaconda-client # necessary to upload packages
 conda activate base
 
-bash update_anaconda.sh recipyPath [pyversion]
+bash update_anaconda.sh recipePath [pyversion]
 ```
 
 

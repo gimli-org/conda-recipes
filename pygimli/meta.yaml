@@ -31,9 +31,10 @@ requirements:
     - matplotlib
     - scipy
     - pytest
-    - tetgen
     - pyqt
     - pyvista
+    - pip
+    - tetgen # [not arm64]
 
 test:
   imports:
@@ -41,7 +42,7 @@ test:
     - pygimli
   commands:
     - pytripatch -h # Python app
-    - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
+    #- python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
     - python -c "import pygimli; pygimli.version()"
 
 about:

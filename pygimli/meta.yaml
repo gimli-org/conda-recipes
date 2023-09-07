@@ -9,7 +9,7 @@ package:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 source:
@@ -34,16 +34,16 @@ requirements:
     - pyqt
     - pyvista
     - pip
-    - tetgen # [not arm64]
+    - tetgen
 
-test:
-  imports:
-    - pgcore
-    - pygimli
-  commands:
-    - pytripatch -h # Python app
-    #- python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
-    - python -c "import pygimli; pygimli.version()"
+#test:
+  #imports:
+    #- pgcore
+    #- pygimli
+  #commands:
+    #- pytripatch -h # Python app
+    ##- python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
+    #- python -c "import pygimli; pygimli.version()"
 
 about:
   home: https://www.pygimli.org

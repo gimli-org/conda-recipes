@@ -17,7 +17,7 @@ function ensureAnacondaLogin(){
 python << END
 from subprocess import PIPE, run, sys
 def syscall(command):
-    result = run(command, stdout=PIPE, stderr=PIPE, 
+    result = run(command, stdout=PIPE, stderr=PIPE,
                  universal_newlines=True, shell=True)
     return result.stdout, result.stderr
 out, err = syscall('anaconda whoami')
@@ -37,12 +37,12 @@ fi
 }
 
 # no argument -> help
-[ $# -lt 1 ] && help 
+[ $# -lt 1 ] && help
 
 PKG=$1
 
-[ $# -gt 1 ] && ALLPY=$2 || ALLPY=(3.8 3.9 3.10, 3.11)
-[ $# -gt 2 ] && ALLNP=$3 || ALLNP=(1.20 1.21 1.22, 1.23)
+[ $# -gt 1 ] && ALLPY=$2 || ALLPY=(3.9 3.10 3.11)
+[ $# -gt 2 ] && ALLNP=$3 || ALLNP=(1.21 1.22 1.23)
 
 echo "Building package: $PKG for py=${ALLPY[@]} np=${ALLNP[@]}"
 

@@ -5,7 +5,7 @@ package:
     # also intermediate versions will trigger an update of anaconda badges.
     name: pgcore
     #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
-    version: 1.4.0
+    version: 1.4.5
 
 build:
     number: 0
@@ -28,7 +28,7 @@ requirements:
     host:
         - python {{ PY_VER }}
         - boost 1.80.*
-        - numpy 1.24.*
+        - numpy 1.23.*
         - zlib
 
     build:
@@ -40,18 +40,20 @@ requirements:
         - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('boost', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('numpy', max_pin='x.x') }}
-        - suitesparse
         - openblas
+        - suitesparse
+        #- scikit-umfpack
         - wget # [not linux]
-        - mercurial # [not linux]
 
     run:
         - gxx_{{ target_platform }} # [not osx]
-        - suitesparse
         - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
-        - {{ pin_compatible('boost',min_pin='x.x', max_pin='x.x') }}
+        - {{ pin_compatible('boost', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('numpy', max_pin='x.x') }}
         - openblas
+        - suitesparse
+        #- scikit-umfpack
+
 
 test:
     imports:

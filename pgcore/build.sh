@@ -44,12 +44,13 @@ export AVOID_GIMLI_TEST=1
 
 pushd $GIMLI_BUILD
 
+rm -rf CMakeCache.txt
+
 CLEAN=1 cmake $GIMLI_SOURCE $BOOST $PYTHONSPECS $skiprpath \
   -DCMAKE_PREFIX_PATH=$PREFIX \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DPYTHON_EXECUTABLE=$PREFIX/bin/python \
   -DAVOID_CPPUNIT=TRUE \
-  -DOpenBLAS_INCLUDE_DIR=$PREFIX/include \
   "${CMAKE_PLATFORM_FLAGS[@]}" \
   -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
 
@@ -66,10 +67,11 @@ mkdir -p $PREFIX/lib
 cp -v $GIMLI_BUILD/lib/*${SHLIB_EXT} $PREFIX/lib
 
 mkdir -p $PREFIX/include/gimli
-mv -v $GIMLI_SOURCE/core/src $PREFIX/include/gimli # header files for bert
-#cp -v $GIMLI_BUILD/bin/* $PREFIX/bin
+cp -v $GIMLI_SOURCE/core/src/*.h $PREFIX/include/gimli # header files for bert
+mkdir -p $PREFIX/include/gimli/bert
+cp -v $GIMLI_SOURCE/core/src/bert/*.h $PREFIX/include/gimli/bert # header files for bert
 # Python part
-mv -v $GIMLI_SOURCE/pygimli/core/*.so $GIMLI_ROOT/pgcore/pgcore
+cp -v $GIMLI_SOURCE/pygimli/core/*.so $GIMLI_ROOT/pgcore/pgcore
 
 export PYTHONUSERBASE=$PREFIX
 pushd $GIMLI_ROOT/pgcore

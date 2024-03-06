@@ -9,7 +9,6 @@ function help(){
     echo "############################"
     echo "Examples:"
     echo "bash ${0##*/} pgcore # pgcore for all supported python versions"
-    echo "bash ${0##*/} pgcore 3.10 # pgcore for python-3.10"
     exit
 }
 
@@ -41,31 +40,10 @@ fi
 
 PKG=$1
 
-[ $# -gt 1 ] && ALLPY=($2) || ALLPY=(3.9 3.10 3.11)
-
-echo "Building package: $PKG for ${ALLPY[@]}"
-
 echo "purging old builds ..."
 conda build purge # remove intermediate builds
 echo "... done"
 
 # check if already logged in
 # manuell log off with 'anaconda logout'
-ensureAnacondaLogin
-if [[ $PKG = *pgcore* ]]; then
-#if [ "$PKG" == "pgcore" ]; then
-    for PY in ${ALLPY[@]}; do
-        echo "Generating build name for $PKG (py=$PY)..."
-        name=`conda build $PKG --python $PY --output`
-        echo "Building $name"
-        sleep 1
-        conda mambabuild -c conda-forge --python $PY $PKG # mambabuild is faster. You need to "conda install boa"
-    done
-else
-    echo "Generating building name for $PKG ..."
-    name=`conda build $PKG --output`
-    echo "Building $name"
-    sleep 1
-    conda mambabuild -c conda-forge $PKG
-fi
-
+conda mambabuild -c conda-forge $PKG --skip-existing

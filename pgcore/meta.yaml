@@ -5,7 +5,7 @@ package:
     # also intermediate versions will trigger an update of anaconda badges.
     name: pgcore
     #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
-    version: 1.4.5
+    version: 1.5.0
 
 build:
     number: 0
@@ -16,8 +16,8 @@ build:
 source:
     # From GIT
     - git_url: https://github.com/gimli-org/gimli.git
-      #git_tag: v1.4.0
-      git_tag: dev
+      git_tag: v1.5.0
+      #git_tag: dev
       folder: gimli
     - git_url: https://github.com/gimli-org/pgcore.git
       folder: pgcore
@@ -26,9 +26,9 @@ source:
 
 requirements:
     host:
-        - python {{ PY_VER }}
-        - boost 1.80.*
-        - numpy 1.23.*
+        - python
+        - boost
+        - numpy
         - zlib
 
     build:
@@ -37,6 +37,9 @@ requirements:
         - libcxx
         - cmake >=3.15
         - make
+        - python
+        - boost
+        - numpy
         - {{ pin_compatible('python', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('boost', min_pin='x.x', max_pin='x.x') }}
         - {{ pin_compatible('numpy', max_pin='x.x') }}
@@ -52,6 +55,7 @@ requirements:
         - {{ pin_compatible('numpy', max_pin='x.x') }}
         - openblas
         - suitesparse
+        - tetgen # [not arm64]
         #- scikit-umfpack
 
 

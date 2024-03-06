@@ -28,7 +28,7 @@ conda install -y conda-build boa # necessary to build packages
 conda install -y anaconda-client # necessary to upload packages
 conda activate base
 
-bash update_anaconda.sh recipePath [pyversion]
+bash update_anaconda.sh recipePath
 ```
 
 

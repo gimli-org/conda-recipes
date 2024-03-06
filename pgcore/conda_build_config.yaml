@@ -1,0 +1,23 @@
+MACOSX_DEPLOYMENT_TARGET:
+  - "12.0"
+MACOSX_SDK_VERSION:
+  - "12.0"
+
+boost:
+  - 1.80
+  - 1.84
+
+python:
+  - 3.9
+  - 3.10
+  - 3.11
+
+numpy:
+  - 1.24
+  - 1.25
+  - 1.26
+
+pin_run_as_build:
+  boost: x.x
+  python: x.x
+  numpy: x.x

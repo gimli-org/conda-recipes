@@ -6,6 +6,11 @@ shopt -s extglob
 unset PYTHONPATH
 unset CMAKE_PREFIX_PATH
 
+PYTHON_EXEC=$(which python3)
+PYTHON_INC=$(python3 -c 'import sysconfig; print(sysconfig.get_path("include"))')
+PYTHON_LIB=$(python3-config --configdir)
+
+export CPLUS_INCLUDE_PATH=$PYTHON_INC
 
 GIMLI_ROOT=$(pwd)
 export GIMLI_BUILD=$GIMLI_ROOT/build
@@ -47,6 +52,7 @@ pushd $GIMLI_BUILD
 rm -rf CMakeCache.txt
 
 CLEAN=1 cmake $GIMLI_SOURCE $BOOST $PYTHONSPECS $skiprpath \
+  -DPYTHON_EXECUTABLE=$PYTHON_EXEC -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INC \
   -DCMAKE_PREFIX_PATH=$PREFIX \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DPYTHON_EXECUTABLE=$PREFIX/bin/python \

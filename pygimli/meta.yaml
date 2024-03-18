@@ -34,6 +34,7 @@ requirements:
     - pyqt
     - pyvista
     - pip
+    - tdqm
     # - tetgen # Moved to pgcore package, since it is platform dependent (not available for Mac OS with M chips currently)
 
 test:

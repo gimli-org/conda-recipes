@@ -4,41 +4,41 @@ package:
     # number of commits since the last tag, i.e. 2.2.6_13. This assures that
     # also intermediate versions will trigger an update of anaconda badges.
     name: pybert
-    version: {{ GIT_DESCRIBE_TAG[1:] }}
+    # version: {{ GIT_DESCRIBE_TAG[1:] }}
+    version: 2.4.3
 
 build:
-    rpaths:
-        - lib/
-        - lib64/
+    noarch: python
+    number: 0
+    # script: python setup.py install --single-version-externally-managed --record=record.txt
 
 source:
     git_url: https://gitlab.com/resistivity-net/bert
-    #path: /home/wagner/git/bert/trunk
     #git_tag: master
-    git_tag: v2.3.1
+    git_tag: v2.4.3
 
 requirements:
     host:
-        - python {{ PY_VER }}
-        - pygimli >=1.1.1
+        - python # {{ PY_VER }}
+        - pygimli >=1.4.3
 
     build:
-        - python {{ PY_VER }}
-        - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
-        - cmake >=2.9
-        - {{ pin_compatible('python', min_pin='{{ PY_VER }}', max_pin='{{ PY_VER }}.x') }}
-        - pygimli >=1.1.1
+        - python # {{ PY_VER }}
+        # - {{ compiler('c') }}
+        # - {{ compiler('cxx') }}
+        # - cmake >=2.9
+        # - {{ pin_compatible('python', min_pin='{{ PY_VER }}', max_pin='{{ PY_VER }}.x') }}
+        - pygimli >=1.4.3
 
     run:
-        - python {{ PY_VER }}
-        - pygimli >=1.1.1
+        - python # {{ PY_VER }}
+        - pygimli >=1.4.3
 
 test:
     imports:
       - pybert
-    commands:
-      - dcinv -h
+    # commands:
+    #   - dcinv -h
 
 about:
     home: http://www.resistivity.net

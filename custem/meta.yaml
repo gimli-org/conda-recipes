@@ -9,7 +9,7 @@ package:
 source:
 #    # From GIT #
      git_url: https://gitlab.com/Rochlitz.R/custEM.git
-     git_tag: custEM-v-1.2.0
+     git_tag: custEM-v-1.5.0
 #    git_tag: conda_test_0
 #    git_tag: develop
 
@@ -21,14 +21,14 @@ build:
 
 requirements:
     host:
-        - python =3.9
+        - python
     run:
-        - python =3.9
-        - pygimli =1.2.4
-        - fenics =2019
-        - tetgen =1.6
-        - comet =1
-        #- psutil
+        - python
+        - pygimli=1.5
+        - fenics=2019
+        - tetgen=1.6
+        - comet=1
+        - mpich
         #- petsc >=3.16
 test:
     commands:

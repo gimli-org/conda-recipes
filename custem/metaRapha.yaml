@@ -1,0 +1,41 @@
+package:
+    # INFO:
+    # The version is generated from the last git tag, an underscore and the
+    # number of commits since the last tag, i.e. 1.0.5_137 This assures that
+    # also intermediate versions will trigger an update of anaconda badges.
+    name: custem
+    version: {{ GIT_DESCRIBE_TAG[9:] }}
+
+source:
+#    # From GIT
+#    git_url: https://gitlab.com/Rochlitz.R/custEM.git
+#    # git_tag: master
+#    git_tag: custEM-v-0.98.c
+    path: ../../custEM/custEM
+
+requirements:
+    host:
+        - python =3.7.3
+    run:
+        - python =3.7.3
+        - fenics >=2019.1
+        - empymod
+        - pygimli
+        - numpy =1.15.4
+        - mpi4py
+        - tetgen
+test:
+    imports:
+        - dolfin
+        - pygimli
+        - custEM
+    commands:
+        - python -c "import dolfin"
+        - python -c "import pygimli"
+        - python -c "import custEM"
+        - python -c "import custEM; custEM.run_tests()"
+
+about:
+    home: https://custem.readthedocs.io/en/latest/
+    summary: customizable controlled-source electromagnetic modeling
+    license: LGPL

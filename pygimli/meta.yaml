@@ -43,8 +43,7 @@ test:
     - pgcore
     - pygimli
   commands:
-    ##- python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
-    - python -c "import pygimli; pygimli.version()"
+    - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
 
 about:
   home: https://www.pygimli.org

@@ -5,7 +5,7 @@ package:
     # also intermediate versions will trigger an update of anaconda badges.
     name: pgcore
     #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
-    version: 1.5.0
+    version: 1.5.4
 
 build:
     number: 0
@@ -15,8 +15,9 @@ build:
 
 source:
     # From GIT
-    - git_url: https://github.com/gimli-org/gimli.git
-      git_tag: v1.5.0
+    - path: /Users/fwagner/git/gimli_dev/source
+      #git_url: https://github.com/gimli-org/gimli.git
+      #git_tag: v1.5.4
       #git_tag: dev
       folder: gimli
     - git_url: https://github.com/gimli-org/pgcore.git
@@ -34,7 +35,7 @@ requirements:
     build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - libcxx
+        #- libcxx
         - cmake >=3.15
         - make
         - python

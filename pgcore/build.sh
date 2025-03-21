@@ -39,24 +39,19 @@ else
   sysroot=""
 fi
 
-export SYSTEM_VERSION_COMPAT=1
+#export SYSTEM_VERSION_COMPAT=1
 
 export BLAS=libopenblas${SHLIB_EXT}
-export PYTHONSPECS=-DPYTHON_LIBRARY=${CONDA_PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}
 export BOOST=-DBoost_PYTHON_LIBRARY=${CONDA_PREFIX}/lib/libboost_python${py}${SHLIB_EXT}
-
-export AVOID_GIMLI_TEST=1
 
 pushd $GIMLI_BUILD
 
 rm -rf CMakeCache.txt
 
-CLEAN=1 cmake $GIMLI_SOURCE $BOOST $PYTHONSPECS $skiprpath \
-  -DPYTHON_EXECUTABLE=$PYTHON_EXEC -DPYTHON_LIBRARY=$PYTHON_LIB -DPYTHON_INCLUDE_DIR=$PYTHON_INC \
+CLEAN=1 cmake $GIMLI_SOURCE $BOOST $skiprpath \
+  -D NOREADPROC=1 \
   -DCMAKE_PREFIX_PATH=$PREFIX \
   -DCMAKE_INSTALL_PREFIX=$PREFIX \
-  -DPYTHON_EXECUTABLE=$PREFIX/bin/python \
-  -DAVOID_CPPUNIT=TRUE \
   "${CMAKE_PLATFORM_FLAGS[@]}" \
   -DAVOID_READPROC=TRUE || (cat CMakeFiles/CMakeError.log && exit 1)
 
@@ -77,9 +72,8 @@ cp -v $GIMLI_SOURCE/core/src/*.h $PREFIX/include/gimli # header files for bert
 mkdir -p $PREFIX/include/gimli/bert
 cp -v $GIMLI_SOURCE/core/src/bert/*.h $PREFIX/include/gimli/bert # header files for bert
 # Python part
-cp -v $GIMLI_SOURCE/pygimli/core/*.so $GIMLI_ROOT/pgcore/pgcore
+cp -v $GIMLI_SOURCE/pygimli/core/libs/*.so $GIMLI_ROOT/pgcore/pgcore
 
-export PYTHONUSERBASE=$PREFIX
 pushd $GIMLI_ROOT/pgcore
-python setup.py install --user
+$PREFIX/bin/python -m pip install . --no-deps --no-build-isolation -v --no-clean
 popd

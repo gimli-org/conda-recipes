@@ -5,7 +5,7 @@ package:
   # also intermediate versions will trigger an update of anaconda badges.
   name: pygimli
   #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
-  version: 1.5.3
+  version: 1.5.4
 
 build:
   noarch: python
@@ -17,7 +17,7 @@ source:
   git_url: https://github.com/gimli-org/gimli.git
   #git_tag: release
   #git_tag: dev
-  git_tag: v1.5.3
+  git_tag: v1.5.4
   #OR LOCAL to DEBUG
   #path: /home/wagner/git/gimli_fw/trunk
 
@@ -27,7 +27,7 @@ requirements:
 
   run:
     - python
-    - pgcore=1.5.0
+    - pgcore>=1.5.0
     - matplotlib
     - scipy
     - pytest
@@ -35,8 +35,7 @@ requirements:
     - pyvista
     - pip
     - tqdm
-    - suitesparse=5
-    # - tetgen # Moved to pgcore package, since it is platform dependent (not available for Mac OS with M chips currently)
+    - suitesparse
 
 test:
   imports:

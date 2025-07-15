@@ -29,7 +29,7 @@ requirements:
     - python
     - pgcore>=1.5.0
     - matplotlib
-    - scipy
+    - scipy<1.15 # RandomGenerator error
     - pytest
     - pyqt
     - pyvista

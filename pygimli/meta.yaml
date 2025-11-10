@@ -5,19 +5,20 @@ package:
   # also intermediate versions will trigger an update of anaconda badges.
   name: pygimli
   #version: {{ GIT_DESCRIBE_TAG[1:] + "_" + GIT_DESCRIBE_NUMBER }}
-  version: 1.5.4
+  version: 1.5.5
 
 build:
   noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: {{ PYTHON }} -m pip install --no-deps --ignore-installed -vv .
+  #script: python setup.py install --single-version-externally-managed --record=record.txt
 
 source:
   # From GIT
   git_url: https://github.com/gimli-org/gimli.git
   #git_tag: release
   #git_tag: dev
-  git_tag: v1.5.4
+  git_tag: v1.5.5
   #OR LOCAL to DEBUG
   #path: /home/wagner/git/gimli_fw/trunk
 

@@ -4,16 +4,16 @@ MACOSX_SDK_VERSION:
   - "13.0"
 
 boost:
-  - 1.85
+  - 1.91
 
 python:
-  - 3.12
-  - 3.13
   - 3.14
+  - 3.13
+  - 3.12
 
 numpy:
-  - 1.26
-  - 2.1
+  - 2.4
+  - 2.3
   - 2.2
 
 pin_run_as_build:

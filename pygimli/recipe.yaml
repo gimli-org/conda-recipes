@@ -1,0 +1,50 @@
+context:
+  version: "1.6.0"
+
+package:
+  name: pygimli
+  version: ${{version}}
+
+source:
+  git: https://github.com/gimli-org/gimli.git
+  tag: v${{ version }}
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install --no-deps --ignore-installed -vv .
+
+requirements:
+  host:
+    - python
+    - pip
+    - setuptools
+    - wheel
+  run:
+    - python
+    - pgcore >=1.6.0
+    - matplotlib >=3.7
+    - scipy<1.15  # RandomGenerator error
+    - pytest
+    - pyqt
+    - pyvista
+    - tqdm
+    - suitesparse >=7
+
+tests:
+  - python:
+      imports:
+        - pgcore
+        - pygimli
+      pip_check: false
+#  - script:
+#      - python -c "import pygimli; pygimli.test(onlydoctests=True, show=False, abort=True)"
+
+about:
+  summary: Geophysical Inversion and Modelling Library
+  license: Apache-2.0
+  license_file: COPYING.rst
+  homepage: https://www.pygimli.org
+  repository: https://www.github.com/gimli-org/gimli
+  documentation: https://www.pygimli.org
+

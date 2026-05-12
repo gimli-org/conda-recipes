@@ -1,0 +1,62 @@
+context:
+  version: "1.6.0"
+
+package:
+  name: pgcore
+  version: ${{version}}
+
+build:
+  number: 0 # only increment if the build recipe changes, not the version
+
+source:
+  - git: https://github.com/gimli-org/gimli.git
+    #branch: dev
+    tag: v${{version}}
+    target_directory: gimli
+  - git: https://github.com/gimli-org/pgcore.git
+    target_directory: pgcore
+
+
+# Fix some dependencies
+requirements:
+  host:
+    - python
+    - openblas
+    - libboost-python-devel
+    - numpy >=2
+    - pip
+    - setuptools
+    - zlib
+  build:
+    - ${{ compiler('cxx') }}
+    - cmake
+    - make
+    - python
+    - setuptools
+    - libboost-python-devel
+    - numpy >=2
+    - suitesparse >=7
+    - wget
+  run:
+    - suitesparse
+    - if: not (osx and arm64)
+      then:
+        - tetgen # Not available for Apple M chips
+  run_exports:
+    - ${{ pin_compatible('zlib') }}
+    - ${{ pin_compatible('suitesparse') }}
+    - ${{ pin_compatible('libboost-python-devel', exact=True) }}
+
+tests:
+  - python:
+      imports:
+        - pgcore
+      pip_check: false
+
+about:
+  summary: Geophysical Inversion and Modelling Library
+  license: Apache-2.0
+  license_file: COPYING.rst
+  homepage: https://www.pygimli.org
+  repository: https://www.github.com/gimli-org/gimli
+  documentation: https://www.pygimli.org
